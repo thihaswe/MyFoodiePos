@@ -1,7 +1,7 @@
 import config from "@/config";
 import { useAppDispatch } from "@/store/hook";
 import { setMenu } from "@/store/slices/menuSlice";
-import { Menu } from "@/types/menu";
+import { Menu, MenuPayload } from "@/types/menu";
 import { TextFields } from "@mui/icons-material";
 import {
   Box,
@@ -21,17 +21,10 @@ interface Prop {
 
 const CreateMenu = ({ open, setOpen }: Prop) => {
   const dispatch = useAppDispatch();
-  const [newMenu, setNewMenu] = useState({ name: "", price: 0 });
+  const [newMenu, setNewMenu] = useState<MenuPayload>({ name: "", price: 0 });
 
   const handleCreateMenu = async () => {
-    const response = await fetch(`${config.apiBaseUrl}/api/menu`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(newMenu),
-    });
-    const data = await response.json();
-    console.log(data);
-    dispatch(setMenu(data));
+    dispatch(CreateMenu(newMenu));
 
     setOpen(false);
   };
