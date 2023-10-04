@@ -14,13 +14,11 @@ interface Prop {
 }
 
 const MenuCard = ({ superman }: Prop) => {
-  console.log(superman.assertUrl);
+  const imageUrl = superman.assertUrl;
+  console.log("imageUrl");
   return (
     <Card sx={{ width: "250px" }}>
-      <CardMedia
-        sx={{ height: 140, backgroundSize: "contain" }}
-        image={superman.assertUrl || ""}
-      />
+      <CardMedia image={imageUrl} sx={{ height: 150 }}></CardMedia>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {superman.name} <br></br>$ {superman.price}

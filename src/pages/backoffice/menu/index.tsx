@@ -4,6 +4,7 @@ import MenuCard from "@/components/menuCard/MenuCard";
 import { useAppSelector } from "@/store/hook";
 import { Menu } from "@/types/menu";
 import { Box, Button } from "@mui/material";
+import Link from "next/link";
 import { useState } from "react";
 
 const MenuPage = () => {
@@ -25,7 +26,9 @@ const MenuPage = () => {
       </Box>
       <Box display={"flex"}>
         {menus.map((item) => (
-          <MenuCard key={item.id} superman={item}></MenuCard>
+          <Link href={`/backoffice/menu/${String(item.id)}`} key={item.id}>
+            <MenuCard superman={item}></MenuCard>
+          </Link>
         ))}
       </Box>
     </Layout>
