@@ -1,9 +1,27 @@
 import { configureStore } from "@reduxjs/toolkit";
-import menuReducer from "./slices/menuSlice";
+import appReducer from "../store/slices/appSlice";
+import menuCategoryReducer from "../store/slices/menuCategorySlice";
+import menuCategoryMenuReducer from "../store/slices/menuCategoryMenuSlice";
+import menuReducer from "../store/slices/menuSlice";
+import menuAddonCategoryReducer from "../store/slices/menuAddonCategory";
+import addonCategoryReducer from "../store/slices/addonCategorySlice";
+import addonReducer from "../store/slices/addonSlice";
+import locationReducer from "../store/slices/locationSlice";
+import tableReducer from "../store/slices/tableSlice";
+
+// ...
 
 export const store = configureStore({
   reducer: {
-    menuStore: menuReducer,
+    app: appReducer,
+    menuCategory: menuCategoryReducer,
+    menuCategoryMenu: menuCategoryMenuReducer,
+    menu: menuReducer,
+    menuAddonCategory: menuAddonCategoryReducer,
+    addonCategory: addonCategoryReducer,
+    addon: addonReducer,
+    location: locationReducer,
+    table: tableReducer,
   },
 });
 

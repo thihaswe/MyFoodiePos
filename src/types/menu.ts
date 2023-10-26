@@ -1,16 +1,16 @@
-export interface MenuPayload {
-  name: string;
-  price: number;
-}
+import { Menu } from "@prisma/client";
 
-export interface Menu extends MenuPayload {
-  id: number;
-  isArchived: boolean;
-  assertUrl?: string;
-}
-
-export interface MenuState {
+export interface MenuInitialState {
   items: Menu[];
   isLoading: boolean;
   error: Error | null;
+}
+
+export interface BaseOptions {
+  onSuccess?: (data?: any) => void;
+  onError?: (data?: any) => void;
+}
+
+export interface FetchMenu extends BaseOptions {
+  menus: Menu[];
 }
