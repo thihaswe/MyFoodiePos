@@ -3,11 +3,13 @@ import appReducer from "../store/slices/appSlice";
 import menuCategoryReducer from "../store/slices/menuCategorySlice";
 import menuCategoryMenuReducer from "../store/slices/menuCategoryMenuSlice";
 import menuReducer from "../store/slices/menuSlice";
-import menuAddonCategoryReducer from "../store/slices/menuAddonCategory";
+import menuAddonCategoryReducer from "./slices/menuAddonCategorySlice";
 import addonCategoryReducer from "../store/slices/addonCategorySlice";
 import addonReducer from "../store/slices/addonSlice";
 import locationReducer from "../store/slices/locationSlice";
 import tableReducer from "../store/slices/tableSlice";
+import disableLocationMenuCategoryReducer from "./slices/disableLocationMenuCategorySlice";
+import disableLocationMenuReducer from "../store/slices/disableLocationMenuSlice";
 
 // ...
 
@@ -21,6 +23,8 @@ export const store = configureStore({
     addonCategory: addonCategoryReducer,
     addon: addonReducer,
     location: locationReducer,
+    disableLocationMenuCategory: disableLocationMenuCategoryReducer,
+    disableLocationMenu: disableLocationMenuReducer,
     table: tableReducer,
   },
 });

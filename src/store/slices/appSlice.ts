@@ -8,7 +8,9 @@ import { setLocation } from "./locationSlice";
 import { setTable } from "./tableSlice";
 import { setMenuCategoryMenu } from "./menuCategoryMenuSlice";
 import { setAddon } from "./addonSlice";
-import { setMenuAddonCategory } from "./menuAddonCategory";
+import { setMenuAddonCategory } from "./menuAddonCategorySlice";
+import { setdisableLocationMenu } from "./disableLocationMenuSlice";
+import { setdisableLocationMenuCategory } from "./disableLocationMenuCategorySlice";
 
 const initialState: AppInitialState = {
   init: false,
@@ -22,16 +24,31 @@ export const fetchAppData = createAsyncThunk(
     const { onSuccess, onError } = options;
     try {
       const response = await fetch(`${config.apiBaseUrl}/app`);
-      const data = response.json();
-      const {} = data;
+      const data = await response.json();
+      const {
+        company,
+        menuCategories,
+        menus,
+        disableLocationMenus,
+        disableLocationMenuCategories,
+        menuCategoryMenus,
+        addonCategories,
+        menuAddonCategories,
+        addons,
+        locations,
+      } = data;
       ThunkAPI.dispatch(setApp(true));
-      // ThunkAPI.dispatch(setMenuCategory());
-      // ThunkAPI.dispatch(setMenuCategoryMenu());
-      // ThunkAPI.dispatch(setMenu());
-      // ThunkAPI.dispatch(setMenuAddonCategor());
-      // ThunkAPI.dispatch(setAddonCategory());
-      // ThunkAPI.dispatch(setAddon());
-      // ThunkAPI.dispatch(setLocation());
+      ThunkAPI.dispatch(setMenuCategory(menuCategories));
+      ThunkAPI.dispatch(setMenuCategoryMenu(menuCategoryMenus));
+      ThunkAPI.dispatch(setMenu(menus));
+      ThunkAPI.dispatch(setMenuAddonCategory(menuAddonCategories));
+      ThunkAPI.dispatch(setAddonCategory(addonCategories));
+      ThunkAPI.dispatch(setAddon(addons));
+      ThunkAPI.dispatch(setdisableLocationMenu(disableLocationMenus));
+      ThunkAPI.dispatch(
+        setdisableLocationMenuCategory(disableLocationMenuCategories)
+      );
+      ThunkAPI.dispatch(setLocation(locations));
       // ThunkAPI.dispatch(setTable());
       onSuccess && onSuccess();
     } catch (error) {

@@ -7,12 +7,14 @@ import LogOutPage from "../LogOut";
 import TopBar from "../TopBar";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { fetchAppData } from "@/store/slices/appSlice";
+import { useRouter } from "next/router";
 
 interface Prop {
   children: ReactNode;
 }
 
 const Layout = ({ children }: Prop) => {
+  const router = useRouter();
   const init = useAppSelector((store) => store.app.init);
   const dispatch = useAppDispatch();
   const { data: session } = useSession();
@@ -20,7 +22,13 @@ const Layout = ({ children }: Prop) => {
 
   useEffect(() => {
     if (session && !init) {
-      dispatch(fetchAppData({}));
+      dispatch(
+        fetchAppData({
+          onSuccess: () => {
+            router.push("/backoffice/orders");
+          },
+        })
+      );
     }
   }, [session]);
 
