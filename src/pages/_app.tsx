@@ -5,7 +5,10 @@ import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
 import { Provider } from "react-redux";
+import TopBarProgress from "react-topbar-progress-indicator";
 import { store } from "@/store";
+import { useState } from "react";
+import { Router } from "next/router";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

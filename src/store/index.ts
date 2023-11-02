@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import appReducer from "../store/slices/appSlice";
+import companyReducer from "../store/slices/companySlice";
 import menuCategoryReducer from "../store/slices/menuCategorySlice";
 import menuCategoryMenuReducer from "../store/slices/menuCategoryMenuSlice";
 import menuReducer from "../store/slices/menuSlice";
@@ -16,6 +17,7 @@ import disableLocationMenuReducer from "../store/slices/disableLocationMenuSlice
 export const store = configureStore({
   reducer: {
     app: appReducer,
+    company: companyReducer,
     menuCategory: menuCategoryReducer,
     menuCategoryMenu: menuCategoryMenuReducer,
     menu: menuReducer,

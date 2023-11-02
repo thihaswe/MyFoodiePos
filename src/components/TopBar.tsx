@@ -1,12 +1,14 @@
 import { Box, Button, Typography } from "@mui/material";
+import { Company } from "@prisma/client";
 import Image from "next/image";
 import React from "react";
 
 interface Prop {
   setOpen: (data: boolean) => void;
+  company: Company;
 }
 
-const TopBar = ({ setOpen }: Prop) => {
+const TopBar = ({ setOpen, company }: Prop) => {
   return (
     <Box
       sx={{
@@ -25,7 +27,7 @@ const TopBar = ({ setOpen }: Prop) => {
       ></Image>
 
       <Typography sx={{ fontFamily: "fantasy", fontSize: 35 }}>
-        MY FOODIE POS
+        {company.name ? company.name : ""}
       </Typography>
       <Typography>
         <Button

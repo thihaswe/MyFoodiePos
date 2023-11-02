@@ -14,3 +14,20 @@ export interface BaseOptions {
 export interface FetchMenu extends BaseOptions {
   menus: Menu[];
 }
+
+export interface CreateMenuOptions extends BaseOptions {
+  name: string;
+  price: number;
+  menuCategoryIds: number[];
+}
+
+export interface UpdateMenuOptions extends BaseOptions {
+  id: number;
+  name: string;
+  price: number;
+  menuCategoryIds: number[];
+}
+
+export interface DeleteMenuOptions extends BaseOptions {
+  id: number;
+}

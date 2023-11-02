@@ -19,7 +19,6 @@ model Company {
   users          User[]
   locations      Location[]
   menuCategories MenuCategory[]
-  menus Menu[]
   isArchived     Boolean        @default(false)
 }
 
@@ -74,8 +73,6 @@ model Menu {
   id                  Int                   @id @default(autoincrement())
   name                String
   price               Int
-  companyId Int
-  company Company @relation(fields: [companyId],references: [id])
   menuCategoryMenus   MenuCategoryMenu[]
   disableLocationMenu DisableLocationMenu[]
   createAt            DateTime              @default(now())

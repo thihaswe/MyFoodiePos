@@ -56,7 +56,7 @@ export default async function handler(
     const menuName = "default menu";
     const price = 1000;
     const menus = await prisma.menu.create({
-      data: { name: menuName, price, companyId },
+      data: { name: menuName, price },
     });
 
     // menuCategoryMenu create
@@ -122,19 +122,33 @@ export default async function handler(
 
     //getting company
     const company = await prisma.company.findUnique({
-      where: { id: companyId },
+      where: { id: companyId, isArchived: false },
     });
 
     // getting locations
 
-    const locations = await prisma.location.findMany({ where: { companyId } });
+    const locations = await prisma.location.findMany({
+      where: { companyId, isArchived: false },
+    });
 
     // getting menuCategory
     const menuCategories = await prisma.menuCategory.findMany({
-      where: { companyId },
+      where: { companyId, isArchived: false },
+    });
+
+    // getting menuCategoryMenu
+    const menuCategoriesIds = menuCategories.map((item) => item.id);
+    const menuCategoryMenus = await prisma.menuCategoryMenu.findMany({
+      where: {
+        menuCategoryId: { in: menuCategories.map((item) => item.id) },
+        isArchived: false,
+      },
     });
     // getting menu
-    const menus = await prisma.menu.findMany({ where: { companyId } });
+    const menuIds = menuCategoryMenus.map((item) => item.menuId);
+    const menus = await prisma.menu.findMany({
+      where: { id: { in: menuIds }, isArchived: false },
+    });
 
     // getting disableLocationMenuCategory
     const disableLocationMenuCategories =
@@ -142,6 +156,7 @@ export default async function handler(
         where: {
           menuCategoryId: { in: menuCategories.map((item) => item.id) },
           locationId: { in: locations.map((item) => item.id) },
+          isArchived: false,
         },
       });
 
@@ -150,32 +165,35 @@ export default async function handler(
       where: {
         menuId: { in: menus.map((item) => item.id) },
         locationId: { in: locations.map((item) => item.id) },
+        isArchived: false,
       },
-    });
-
-    // getting menuCategorymenu
-    const menuCategoryMenus = await prisma.menuCategoryMenu.findMany({
-      where: { menuCategoryId: { in: menuCategories.map((item) => item.id) } },
     });
 
     // getting menuaddoncategories
     const menuAddonCategories = await prisma.menuAddonCategory.findMany({
-      where: { menuId: { in: menus.map((item) => item.id) } },
+      where: {
+        menuId: { in: menus.map((item) => item.id) },
+        isArchived: false,
+      },
     });
 
     // getting addonCategories
     const addonCategories = await prisma.addonCategory.findMany({
-      where: { id: { in: menuAddonCategories.map((item) => item.id) } },
+      where: {
+        id: { in: menuAddonCategories.map((item) => item.id) },
+        isArchived: false,
+      },
     });
 
     // getting addons
     const addons = await prisma.addon.findMany({
       where: {
         addonCategoryId: { in: addonCategories.map((item) => item.id) },
+        isArchived: false,
       },
     });
     const data = {
-      company,
+      company: [...[], company],
       menuCategories,
       menus,
       disableLocationMenus,
@@ -207,3 +225,7 @@ export default async function handler(
 // for (let i = 0; i < 100; i++) {
 //   console.log("hello");
 // }
+
+// const human = { name: "thiha", age: 15, gender: "male" };
+// const robot = { name: "robot", age: 15 };
+// const {name ,age,gender:sex} = human
