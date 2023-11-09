@@ -32,8 +32,7 @@ export const createMenuThunk = createAsyncThunk(
 
       const menus = data.menus as Menu;
       const menuCategoryMenus = data.menuCategoryMenus as MenuCategoryMenu;
-      console.log(menus);
-      console.log(menuCategoryMenus);
+
       thunkAPI.dispatch(createMenu(menus));
       thunkAPI.dispatch(createMenuCategoryMenu(menuCategoryMenus));
       onSuccess && onSuccess();

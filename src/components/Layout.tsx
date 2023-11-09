@@ -32,7 +32,6 @@ const Layout = ({ children }: Prop) => {
 
   useEffect(() => {
     if (session && !init) {
-      console.log(init);
       dispatch(
         fetchAppData({
           onSuccess: () => {
@@ -43,7 +42,6 @@ const Layout = ({ children }: Prop) => {
                 localStorage.setItem("helloWorld", locations[0].name);
               }
             }
-            router.push("/backoffice/orders");
           },
         })
       );
@@ -62,7 +60,6 @@ const Layout = ({ children }: Prop) => {
   // }, [locations]);
 
   if (!session) {
-    console.log("session");
     return <LogIn></LogIn>;
   } else if (company.length && session) {
     return (

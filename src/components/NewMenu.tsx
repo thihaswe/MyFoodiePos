@@ -18,6 +18,9 @@ import {
 
 import { useRouter } from "next/router";
 import { useState } from "react";
+import FileDropZone from "./FileDropZone";
+import { on } from "events";
+import { config } from "@/utils/config";
 
 interface Prop {
   open: boolean;
@@ -35,18 +38,35 @@ const NewMenuPage = ({ open, setOpen }: Prop) => {
   const dispatch = useAppDispatch();
   const menuCategories = useAppSelector((store) => store.menuCategory.items);
   const [data, setData] = useState<CreateMenuOptions>(defaultData);
+  const [menuImage, setMenuImage] = useState<File>();
 
   const handleOnChange = (e: SelectChangeEvent<number[]>) => {
     const ids = e.target.value as number[];
     setData({ ...data, menuCategoryIds: ids });
   };
-  const handleCreateMenu = () => {
+  const onselected = (acceptedFiles: File[]) => {
+    setMenuImage(acceptedFiles[0]);
+  };
+
+  const handleCreateMenu = async () => {
+    const newMenuPayload = { ...data };
+    if (menuImage) {
+      const formData = new FormData();
+      formData.append("files", menuImage);
+      const response = await fetch(`${config.apiBaseUrl}/assets`, {
+        method: "POST",
+        body: formData,
+      });
+      const { assetUrl } = await response.json();
+      newMenuPayload.assetUrl = assetUrl;
+    }
     dispatch(
       createMenuThunk({
-        ...data,
+        ...newMenuPayload,
         onSuccess: () => {
           setOpen(false);
           setData(defaultData);
+          setMenuImage(undefined);
         },
       })
     );
@@ -103,6 +123,14 @@ const NewMenuPage = ({ open, setOpen }: Prop) => {
             })}
           </Select>
         </FormControl>
+        <FileDropZone onSelected={onselected}></FileDropZone>
+        {menuImage && (
+          <Chip
+            sx={{ mt: 2 }}
+            label={menuImage.name}
+            onDelete={() => setMenuImage(undefined)}
+          />
+        )}
       </DialogContent>
       <DialogActions>
         <Button

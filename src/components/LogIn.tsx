@@ -11,9 +11,7 @@ const LogIn = () => {
       <Box>
         <Button
           variant="contained"
-          onClick={() =>
-            signIn("google", { callbackUrl: "/backoffice/orders" })
-          }
+          onClick={() => signIn("google", { callbackUrl: "/" })}
         >
           LOG IN
         </Button>

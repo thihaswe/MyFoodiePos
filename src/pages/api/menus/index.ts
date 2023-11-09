@@ -20,7 +20,9 @@ export default async function handler(
     const { name, price = 0, menuCategoryIds } = menu;
     const isValid = name && price != undefined && menuCategoryIds.length != 0;
     if (!isValid) return res.status(400).send("Bad Request");
-    const menus = await prisma.menu.create({ data: { name, price } });
+    const menus = await prisma.menu.create({
+      data: { name, price, assetUrl: menu.assetUrl },
+    });
     const newMenuCategoryMenu = menuCategoryIds.map((id) => ({
       menuId: menus.id,
       menuCategoryId: id,
@@ -34,7 +36,7 @@ export default async function handler(
           })
       )
     );
-    console.log(menus, menuCategoryMenus);
+
     return res.status(200).json({ menus, menuCategoryMenus });
   } else if (method === "PUT") {
     const menu = req.body;

@@ -23,7 +23,7 @@ const Menu = () => {
               <ItemCard
                 href={`/backoffice/menus/${item.id}`}
                 label={item.name}
-                imgUrl=""
+                imgUrl={item.assetUrl || ""}
                 subtitle={item.price}
                 icon={<LocalDiningIcon />}
               ></ItemCard>
