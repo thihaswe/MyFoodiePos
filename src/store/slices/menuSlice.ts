@@ -56,7 +56,7 @@ export const updateMenuThunk = createAsyncThunk(
       const respone = await fetch(`${config.apiBaseUrl}/menus`, {
         method: "PUT",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ ...menu, isAvailable, locationId }),
+        body: JSON.stringify({ ...menu, id, isAvailable, locationId }),
       });
       const data = await respone.json();
       const { menus, menuCategoryMenus, disabledLocationMenus } = data;
