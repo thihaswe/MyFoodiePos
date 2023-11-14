@@ -12,6 +12,10 @@ import {
   deleteMenuCategoryMenu,
   updateMenuCategoryMenu,
 } from "./menuCategoryMenuSlice";
+import {
+  addLocationMenuSLice,
+  removeDisabledLocationMenu,
+} from "./disableLocationMenuSlice";
 
 const initialState: MenuInitialState = {
   items: [],
@@ -46,17 +50,25 @@ export const createMenuThunk = createAsyncThunk(
 export const updateMenuThunk = createAsyncThunk(
   "menuSlice/updateMenu",
   async (options: UpdateMenuOptions, thunkAPI) => {
-    const { onSuccess, onError, ...menu } = options;
+    const { onSuccess, onError, isAvailable, locationId, id, ...menu } =
+      options;
     try {
       const respone = await fetch(`${config.apiBaseUrl}/menus`, {
         method: "PUT",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(menu),
+        body: JSON.stringify({ ...menu, isAvailable, locationId }),
       });
       const data = await respone.json();
-      const { menus, menuCategoryMenus } = data;
+      const { menus, menuCategoryMenus, disabledLocationMenus } = data;
       thunkAPI.dispatch(updateMenu(menus));
       thunkAPI.dispatch(updateMenuCategoryMenu(menuCategoryMenus));
+      if (isAvailable === false) {
+        thunkAPI.dispatch(addLocationMenuSLice(disabledLocationMenus));
+      } else {
+        thunkAPI.dispatch(
+          removeDisabledLocationMenu({ locationId, menuId: id })
+        );
+      }
       onSuccess && onSuccess();
     } catch (error) {
       onError && onError();

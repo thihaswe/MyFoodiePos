@@ -1,5 +1,5 @@
 import { disableLocationMenuInitialState } from "@/types/disableLocationMenu";
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: disableLocationMenuInitialState = {
   items: [],
@@ -14,8 +14,24 @@ const disableLocationMenuSlice = createSlice({
     setDisableLocationMenu: (state, action) => {
       state.items = action.payload;
     },
+    addLocationMenuSLice: (state, action) => {
+      state.items = [...state.items, ...action.payload];
+    },
+    removeDisabledLocationMenu: (
+      state,
+      action: PayloadAction<{ locationId: number; menuId: number }>
+    ) => {
+      const { locationId, menuId } = action.payload;
+      state.items = state.items.filter(
+        (item) => !(item.locationId === locationId && item.menuId === menuId)
+      );
+    },
   },
 });
 
-export const { setDisableLocationMenu } = disableLocationMenuSlice.actions;
+export const {
+  setDisableLocationMenu,
+  addLocationMenuSLice,
+  removeDisabledLocationMenu,
+} = disableLocationMenuSlice.actions;
 export default disableLocationMenuSlice.reducer;

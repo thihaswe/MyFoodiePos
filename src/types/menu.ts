@@ -26,6 +26,8 @@ export interface UpdateMenuOptions extends BaseOptions {
   id: number;
   name: string;
   price: number;
+  isAvailable: boolean;
+  locationId: number;
   menuCategoryIds: number[];
 }
 

@@ -67,7 +67,31 @@ export default async function handler(
         })
       )
     );
-    return res.status(200).json({ menus, menuCategoryMenus });
+    if (menu.locationId && menu.isAvailable === false) {
+      const exist = await prisma.disableLocationMenu.findFirst({
+        where: { menuId: id, locationId: menu.locationId },
+      });
+      if (!exist) {
+        await prisma.disableLocationMenu.create({
+          data: { locationId: menu.locationId, menuId: id },
+        });
+      }
+    } else if (menu.locationId && menu.isAvailable === true) {
+      const exist = await prisma.disableLocationMenu.findFirst({
+        where: { menuId: id, locationId: menu.locationId },
+      });
+      if (exist) {
+        await prisma.disableLocationMenu.delete({
+          where: { id: exist.id },
+        });
+      }
+    }
+    const disabledLocationMenus = await prisma.disableLocationMenu.findMany({
+      where: { menuId: id },
+    });
+    return res
+      .status(200)
+      .json({ menus, menuCategoryMenus, disabledLocationMenus });
   } else if (method === "DELETE") {
     const menuId = Number(req.query.id);
     const exist = await prisma.menu.findFirst({ where: { id: menuId } });

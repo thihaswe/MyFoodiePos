@@ -37,18 +37,28 @@ const MenuDetail = () => {
   );
   const menuCategories = useAppSelector((store) => store.menuCategory.items);
   const addons = useAppSelector((store) => store.addon.items);
+  const disabledLocationMenus = useAppSelector(
+    (store) => store.disableLocationMenu.items
+  );
 
   const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<UpdateMenuOptions>();
 
   useEffect(() => {
     if (menu) {
+      const selectedLocationId = Number(localStorage.getItem("helloWorld"));
+      const disabledLocationMenu = disabledLocationMenus.find(
+        (item) =>
+          item.locationId === selectedLocationId && item.menuId === menuId
+      );
       setData({
         ...menu,
         menuCategoryIds: selectedMenuCategoryIds,
+        locationId: selectedLocationId,
+        isAvailable: disabledLocationMenu ? false : true,
       });
     }
-  }, [menu]);
+  }, [menu, disabledLocationMenus]);
 
   if (!menu || !data) return null;
 
@@ -136,6 +146,17 @@ const MenuDetail = () => {
           handleOnChange={handleOnChange}
           practical={menuCategories}
         ></MultiSelect>
+        <FormControlLabel
+          control={
+            <Switch
+              defaultChecked={data.isAvailable}
+              onChange={(evt, value) =>
+                setData({ ...data, isAvailable: value })
+              }
+            />
+          }
+          label="Available"
+        />
         <div style={{ width: "200px", marginTop: 10 }}>
           <Box display={"flex"} justifyContent={"space-between"}>
             <Button
