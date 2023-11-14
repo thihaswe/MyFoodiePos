@@ -5,7 +5,7 @@ import React, { ReactNode } from "react";
 interface Prop {
   label: string;
   href?: string;
-  subtitle: number;
+  subtitle?: number;
   imgUrl?: string;
   icon?: ReactNode;
 }

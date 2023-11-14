@@ -9,8 +9,8 @@ import { setTable } from "./tableSlice";
 import { setMenuCategoryMenu } from "./menuCategoryMenuSlice";
 import { setAddon } from "./addonSlice";
 import { setMenuAddonCategory } from "./menuAddonCategorySlice";
-import { setdisableLocationMenu } from "./disableLocationMenuSlice";
-import { setdisableLocationMenuCategory } from "./disableLocationMenuCategorySlice";
+import { setDisableLocationMenu } from "./disableLocationMenuSlice";
+import { setDisableLocationMenuCategory } from "./disableLocationMenuCategorySlice";
 import { setCompany } from "./companySlice";
 
 const initialState: AppInitialState = {
@@ -41,14 +41,15 @@ export const fetchAppData = createAsyncThunk(
       ThunkAPI.dispatch(setApp(true));
       ThunkAPI.dispatch(setCompany(company));
       ThunkAPI.dispatch(setMenuCategory(menuCategories));
+
       ThunkAPI.dispatch(setMenuCategoryMenu(menuCategoryMenus));
       ThunkAPI.dispatch(setMenu(menus));
       ThunkAPI.dispatch(setMenuAddonCategory(menuAddonCategories));
       ThunkAPI.dispatch(setAddonCategory(addonCategories));
       ThunkAPI.dispatch(setAddon(addons));
-      ThunkAPI.dispatch(setdisableLocationMenu(disableLocationMenus));
+      ThunkAPI.dispatch(setDisableLocationMenu(disableLocationMenus));
       ThunkAPI.dispatch(
-        setdisableLocationMenuCategory(disableLocationMenuCategories)
+        setDisableLocationMenuCategory(disableLocationMenuCategories)
       );
       ThunkAPI.dispatch(setLocation(locations));
       // ThunkAPI.dispatch(setTable());

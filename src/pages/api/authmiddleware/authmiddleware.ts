@@ -3,13 +3,13 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { authOptions } from "../auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 const authMiddleware = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
+  a: NextApiRequest,
+  b: NextApiResponse,
   next: () => void
 ) => {
-  const session = await getServerSession(req, res, authOptions);
-  if (!session) return res.status(401).send("unauthorized");
+  const session = await getServerSession(a, b, authOptions);
+  if (session) return next();
 
-  next();
+  return b.status(401).send("unauthorized");
 };
 export default authMiddleware;

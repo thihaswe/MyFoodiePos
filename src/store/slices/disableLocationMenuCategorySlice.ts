@@ -11,12 +11,23 @@ const disableLocationMenuCategorySlice = createSlice({
   name: "disableLocationMenuCategory",
   initialState,
   reducers: {
-    setdisableLocationMenuCategory: (state, action) => {
+    setDisableLocationMenuCategory: (state, action) => {
       state.items = action.payload;
+    },
+    addDisableLocationMenuCategory: (state, action) => {
+      state.items = [...state.items, ...action.payload];
+    },
+    deleteDisableLocationMenuCategory: (state, action) => {
+      state.items = state.items.filter(
+        (item) => item.menuCategoryId !== action.payload.id
+      );
     },
   },
 });
 
-export const { setdisableLocationMenuCategory } =
-  disableLocationMenuCategorySlice.actions;
+export const {
+  setDisableLocationMenuCategory,
+  addDisableLocationMenuCategory,
+  deleteDisableLocationMenuCategory,
+} = disableLocationMenuCategorySlice.actions;
 export default disableLocationMenuCategorySlice.reducer;

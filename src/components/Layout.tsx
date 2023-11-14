@@ -34,19 +34,18 @@ const Layout = ({ children }: Prop) => {
     if (session && !init) {
       dispatch(
         fetchAppData({
-          onSuccess: () => {
-            const locationStored = localStorage.getItem("helloWorld");
-            if (locations.length) {
-              if (locationStored) return;
-              else {
-                localStorage.setItem("helloWorld", locations[0].name);
-              }
-            }
-          },
+          onSuccess: () => {},
         })
       );
     }
-  }, [session]);
+    const locationStored = localStorage.getItem("helloWorld");
+    if (locations.length) {
+      if (locationStored) return;
+      else {
+        localStorage.setItem("helloWorld", String(locations[0].id));
+      }
+    }
+  }, [session, locations]);
 
   // useEffect(() => {
   //   const locationStored = localStorage.getItem("helloWorld");

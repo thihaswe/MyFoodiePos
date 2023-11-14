@@ -1,5 +1,5 @@
 import { fileUpload } from "@/utils/fileUpload";
-import { error } from "console";
+
 import type { Request, Response } from "express";
 
 export const config = {

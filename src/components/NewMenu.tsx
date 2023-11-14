@@ -58,6 +58,7 @@ const NewMenuPage = ({ open, setOpen }: Prop) => {
         body: formData,
       });
       const { assetUrl } = await response.json();
+
       newMenuPayload.assetUrl = assetUrl;
     }
     dispatch(

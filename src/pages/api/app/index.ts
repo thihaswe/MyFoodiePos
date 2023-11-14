@@ -3,8 +3,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import { prisma } from "@/utils/db";
-import addonSlice from "@/store/slices/addonSlice";
-import AddOnCategories from "@/pages/backoffice/addon-categories";
 import {
   DisableLocationMenu,
   DisableLocationMenuCategory,
@@ -15,9 +13,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const method = req.method;
-  if (method !== "GET") return res.status(400).send("Bad request");
   const session = await getServerSession(req, res, authOptions);
   if (!session) return res.status(401).send("unauthorized");
+  if (method !== "GET") return res.status(405).send("Invalid Method");
   const { user } = session;
   if (!user) return res.status(401).send("server error ");
   const name = user?.name as string;
@@ -118,13 +116,12 @@ export default async function handler(
     };
     return res.status(200).send(data);
   } else {
-    const { id, name, email, companyId } = dbUser;
-
+    const companyId = dbUser.companyId;
     //getting company
-    const company = await prisma.company.findUnique({
+    const company = await prisma.company.findMany({
       where: { id: companyId, isArchived: false },
     });
-
+    const companyIds = company.map((item) => item.id);
     // getting locations
 
     const locations = await prisma.location.findMany({
@@ -133,14 +130,15 @@ export default async function handler(
 
     // getting menuCategory
     const menuCategories = await prisma.menuCategory.findMany({
-      where: { companyId, isArchived: false },
+      where: { companyId: { in: companyIds }, isArchived: false },
+      orderBy: { id: "asc" },
     });
 
     // getting menuCategoryMenu
     const menuCategoriesIds = menuCategories.map((item) => item.id);
     const menuCategoryMenus = await prisma.menuCategoryMenu.findMany({
       where: {
-        menuCategoryId: { in: menuCategories.map((item) => item.id) },
+        menuCategoryId: { in: menuCategoriesIds },
         isArchived: false,
       },
     });
@@ -192,8 +190,9 @@ export default async function handler(
         isArchived: false,
       },
     });
+
     const data = {
-      company: [...[], company],
+      company,
       menuCategories,
       menus,
       disableLocationMenus,
@@ -229,3 +228,36 @@ export default async function handler(
 // const human = { name: "thiha", age: 15, gender: "male" };
 // const robot = { name: "robot", age: 15 };
 // const {name ,age,gender:sex} = human
+
+// how-to-fetch-all-git-branches.html:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+// const num = [1,2,3]
+// undefined
+// const fun1 = async () => {
+//     num.map(async (a) => {
+//         await fetch("https://fakestoreapi.com/products/1");
+//         console.log(a);
+//     });
+//     console.log("outside");
+// };
+
+// undefined
+// const fun2 = async()=>{
+//     for(const ele of num){
+//         await fetch ("https://fakestoreapi.com/products/1")
+//         console.log(ele)
+//     }
+//     console.log("outside")
+// }
+// undefined
+// fun2()
+// Promise {<pending>}
+// VM107:4 1
+// VM107:4 2
+// VM107:4 3
+// VM107:6 outside
+// fun1()
+// VM95:6 outside
+// Promise {<fulfilled>: undefined}
+// VM95:4 2
+// VM95:4 3
+// VM95:4 1

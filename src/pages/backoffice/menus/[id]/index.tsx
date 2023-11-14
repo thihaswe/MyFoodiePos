@@ -8,8 +8,10 @@ import {
   Button,
   Dialog,
   DialogContent,
+  FormControlLabel,
   Select,
   SelectChangeEvent,
+  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -56,7 +58,6 @@ const MenuDetail = () => {
   };
 
   const handleUpdate = () => {
-    router.push("/backoffice/menus");
     dispatch(
       updateMenuThunk({
         ...data,
@@ -72,7 +73,6 @@ const MenuDetail = () => {
       deleteMenuThunk({
         id: menuId,
         onSuccess: () => {
-          dispatch(fetchAppData({}));
           router.push("/backoffice/menus");
         },
       })
@@ -138,8 +138,17 @@ const MenuDetail = () => {
         ></MultiSelect>
         <div style={{ width: "200px", marginTop: 10 }}>
           <Box display={"flex"} justifyContent={"space-between"}>
-            <Button variant="contained">Cancel</Button>
-            <Button variant="contained" onClick={handleUpdate}>
+            <Button
+              variant="contained"
+              onClick={() => router.push("/backoffice/menus")}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              disabled={data.name === "" || data.menuCategoryIds.length === 0}
+              onClick={handleUpdate}
+            >
               Update
             </Button>
           </Box>

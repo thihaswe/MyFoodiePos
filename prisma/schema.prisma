@@ -73,6 +73,7 @@ model Menu {
   id                  Int                   @id @default(autoincrement())
   name                String
   price               Int
+  assetUrl            String?
   menuCategoryMenus   MenuCategoryMenu[]
   disableLocationMenu DisableLocationMenu[]
   createAt            DateTime              @default(now())

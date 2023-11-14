@@ -76,15 +76,28 @@ export default async function handler(
       data: { isArchived: true },
       where: { id: menuId },
     });
+    const menuCategoryMenusIds = (
+      await prisma.menuCategoryMenu.findMany({
+        where: { menuId: menuId },
+      })
+    ).map((item) => item.id);
     await prisma.menuCategoryMenu.updateMany({
       data: { isArchived: true },
       where: { id: menuId },
     });
+    const menuAddonCategoryIds = (
+      await prisma.menuAddonCategory.findMany({
+        where: { menuId: menuId },
+      })
+    ).map((item) => item.id);
+
     await prisma.menuAddonCategory.updateMany({
       data: { isArchived: true },
       where: { id: menuId },
     });
-    return res.status(200).json({ name: "delete" });
+    return res
+      .status(200)
+      .json({ name: "delete", menuCategoryMenusIds, menuAddonCategoryIds });
   }
 
   res.status(200).json({ name: "John Doe" });

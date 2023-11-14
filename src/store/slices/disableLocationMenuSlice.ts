@@ -11,11 +11,11 @@ const disableLocationMenuSlice = createSlice({
   name: "disableLocationMenu",
   initialState,
   reducers: {
-    setdisableLocationMenu: (state, action) => {
+    setDisableLocationMenu: (state, action) => {
       state.items = action.payload;
     },
   },
 });
 
-export const { setdisableLocationMenu } = disableLocationMenuSlice.actions;
+export const { setDisableLocationMenu } = disableLocationMenuSlice.actions;
 export default disableLocationMenuSlice.reducer;

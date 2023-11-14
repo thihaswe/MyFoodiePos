@@ -9,6 +9,7 @@ import { Menu, MenuCategoryMenu } from "@prisma/client";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   createMenuCategoryMenu,
+  deleteMenuCategoryMenu,
   updateMenuCategoryMenu,
 } from "./menuCategoryMenuSlice";
 
@@ -71,8 +72,11 @@ export const deleteMenuThunk = createAsyncThunk(
         method: "DELETE",
       });
       const data = await respone.json();
+
+      const { name, menuAddonCategoryIds, menuCategoryMenuIds } = data;
       thunkAPI.dispatch(deleteMenu(id));
-      // thunkAPI.dispatch();
+      thunkAPI.dispatch(deleteMenuCategoryMenu(menuCategoryMenuIds));
+
       onSuccess && onSuccess();
     } catch (error) {
       onError && onError();
