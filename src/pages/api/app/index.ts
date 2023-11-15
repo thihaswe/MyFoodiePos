@@ -7,6 +7,7 @@ import {
   DisableLocationMenu,
   DisableLocationMenuCategory,
 } from "@prisma/client";
+import { getQrCodeUrl, qrCodeImageUpload } from "@/utils/fileUpload";
 
 export default async function handler(
   req: NextApiRequest,
@@ -26,12 +27,12 @@ export default async function handler(
     const newCompanyName = "foodie company";
     const newCompanyAddress = "NO,100mote zayy tan street";
 
-    const company = await prisma.company.create({
+    const newCompany = await prisma.company.create({
       data: { name: newCompanyName, address: newCompanyAddress },
     });
 
     // user create
-    const companyId = company.id;
+    const companyId = newCompany.id;
     const createUser = { name, email, companyId };
 
     const user = await prisma.user.create({
@@ -98,12 +99,24 @@ export default async function handler(
       newAddon.map((item) => prisma.addon.create({ data: item }))
     );
 
+    // table create
+    const newTableName = "Default table";
+    const tables = await prisma.table.create({
+      data: { name: newTableName, locationId: locations.id, assetUrl: "" },
+    });
+    await qrCodeImageUpload(tables.id);
+    const assetUrl = getQrCodeUrl(tables.id);
+    await prisma.table.update({
+      data: { assetUrl },
+      where: { id: tables.id },
+    });
+
     const disableLocationMenus: DisableLocationMenu[] = [];
     const disableLocationMenuCategories: DisableLocationMenuCategory[] = [];
 
     const data = {
       user,
-      company,
+      company: [...[], newCompany],
       menuCategories: [...[], menuCategories],
       menus: [...[], menus],
       disableLocationMenus,
@@ -113,6 +126,7 @@ export default async function handler(
       menuAddonCategories: [...[], menuAddonCategories],
       addons,
       locations: [...[], locations],
+      tables: [...[], tables],
     };
     return res.status(200).send(data);
   } else {
@@ -127,6 +141,7 @@ export default async function handler(
     const locations = await prisma.location.findMany({
       where: { companyId, isArchived: false },
     });
+    const locationsIds = locations.map((item) => item.id);
 
     // getting menuCategory
     const menuCategories = await prisma.menuCategory.findMany({
@@ -146,6 +161,7 @@ export default async function handler(
     const menuIds = menuCategoryMenus.map((item) => item.menuId);
     const menus = await prisma.menu.findMany({
       where: { id: { in: menuIds }, isArchived: false },
+      orderBy: { id: "asc" },
     });
 
     // getting disableLocationMenuCategory
@@ -191,6 +207,11 @@ export default async function handler(
       },
     });
 
+    // getting tables
+    const tables = await prisma.table.findMany({
+      where: { locationId: { in: locationsIds }, isArchived: false },
+    });
+
     const data = {
       company,
       menuCategories,
@@ -202,6 +223,7 @@ export default async function handler(
       menuAddonCategories,
       addons,
       locations,
+      tables,
     };
     return res.status(200).send(data);
   }

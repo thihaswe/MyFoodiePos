@@ -11,7 +11,7 @@ interface Prop {
 }
 
 const ItemCard = ({ label, href, subtitle, imgUrl = "", icon }: Prop) => {
-  if (href && label && subtitle && (imgUrl || icon)) {
+  if (href && label && (imgUrl || icon)) {
     if (!imgUrl) {
       return (
         <Link href={href}>
@@ -21,7 +21,7 @@ const ItemCard = ({ label, href, subtitle, imgUrl = "", icon }: Prop) => {
             </CardMedia>
             <CardContent>
               <Typography>{label}</Typography>
-              <Typography>{subtitle}</Typography>
+              <Typography>{subtitle ? subtitle : ""}</Typography>
             </CardContent>
           </Card>
         </Link>
@@ -34,7 +34,7 @@ const ItemCard = ({ label, href, subtitle, imgUrl = "", icon }: Prop) => {
               component="img"
               height="150"
               image={`${imgUrl}`}
-              alt="Paella dish"
+              alt="photo is unavailable"
             ></CardMedia>
             <CardContent>
               <Typography>{label}</Typography>

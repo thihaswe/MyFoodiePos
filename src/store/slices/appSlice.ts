@@ -37,6 +37,7 @@ export const fetchAppData = createAsyncThunk(
         menuAddonCategories,
         addons,
         locations,
+        tables,
       } = data;
       ThunkAPI.dispatch(setApp(true));
       ThunkAPI.dispatch(setCompany(company));
@@ -52,7 +53,8 @@ export const fetchAppData = createAsyncThunk(
         setDisableLocationMenuCategory(disableLocationMenuCategories)
       );
       ThunkAPI.dispatch(setLocation(locations));
-      // ThunkAPI.dispatch(setTable());
+
+      ThunkAPI.dispatch(setTable(tables));
       onSuccess && onSuccess();
     } catch (error) {
       onError && onError;

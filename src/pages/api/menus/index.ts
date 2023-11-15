@@ -44,7 +44,7 @@ export default async function handler(
 
     const isValid =
       id && name && price !== undefined && menuCategoryIds.length > 0;
-    console.log(isValid);
+
     if (!isValid) return res.status(400).send("Bad request 1");
     const exist = await prisma.menu.findFirst({ where: { id } });
     if (!exist) return res.status(400).send("Bad Request 2");

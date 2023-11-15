@@ -1,12 +1,12 @@
-import { Box } from "@mui/material";
-import { ReactNode, use, useEffect, useState } from "react";
-import SideBar from "./SideBar";
-import { useSession } from "next-auth/react";
-import LogIn from "./LogIn";
-import LogOutPage from "./LogOut";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { fetchAppData } from "@/store/slices/appSlice";
-import { Router, useRouter } from "next/router";
+import { Box } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { ReactNode, useEffect, useState } from "react";
+import LogIn from "./LogIn";
+import LogOutPage from "./LogOut";
+import SideBar from "./SideBar";
 import TopBar from "./TopBar";
 
 interface Prop {
@@ -29,7 +29,7 @@ const Layout = ({ children }: Prop) => {
   // Router.events.off("routeChangeComplete", () => {
   //   setProgress(false);
   // });
-
+  console.log(session, company.length);
   useEffect(() => {
     if (session && !init) {
       dispatch(
@@ -45,37 +45,26 @@ const Layout = ({ children }: Prop) => {
         localStorage.setItem("helloWorld", String(locations[0].id));
       }
     }
-  }, [session, locations]);
-
-  // useEffect(() => {
-  //   const locationStored = localStorage.getItem("helloWorld");
-
-  //   if (locations.length) {
-  //     if (locationStored) {
-  //     } else {
-  //       localStorage.setItem("helloWorld", locations[0].name);
-  //     }
-  //   }
-  // }, [locations]);
+  }, [session, locations, company]);
 
   if (!session) {
     return <LogIn></LogIn>;
-  } else if (company.length && session) {
-    return (
-      <Box>
-        <TopBar setOpen={setOpen} company={company[0]}></TopBar>
-        <Box sx={{ display: "flex", position: "relative", zIndex: 5, flex: 1 }}>
-          <SideBar />
-          <Box>
-            <LogOutPage open={open} setOpen={setOpen} />
-          </Box>
-
-          <Box sx={{ p: 3, width: "100%", height: "100%" }}>{children}</Box>
-        </Box>
-      </Box>
-    );
   }
-  return null;
+
+  if (!company.length) return null;
+  return (
+    <Box>
+      <TopBar setOpen={setOpen} company={company[0]}></TopBar>
+      <Box sx={{ display: "flex", position: "relative", zIndex: 5, flex: 1 }}>
+        <SideBar />
+        <Box>
+          <LogOutPage open={open} setOpen={setOpen} />
+        </Box>
+
+        <Box sx={{ p: 3, width: "100%", height: "100%" }}>{children}</Box>
+      </Box>
+    </Box>
+  );
 };
 
 export default Layout;

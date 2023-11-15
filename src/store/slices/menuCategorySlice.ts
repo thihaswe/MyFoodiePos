@@ -59,7 +59,6 @@ export const updateMenuCategoryThunk = createAsyncThunk(
       });
       const { menuCategory, disableLocationMenuCategories } =
         await respone.json();
-      console.log(menuCategory, disableLocationMenuCategories);
       ThunkAPI.dispatch(updateMenuCategory(menuCategory));
       if (isAvailable === false) {
         ThunkAPI.dispatch(

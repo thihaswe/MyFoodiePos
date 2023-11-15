@@ -1,5 +1,7 @@
+import { Table } from "@prisma/client";
+
 export interface TableInitialState {
-  items: [];
+  items: Table[];
   isLoading: boolean;
   error: Error | null;
 }
