@@ -16,6 +16,7 @@ import {
   addLocationMenuSLice,
   removeDisabledLocationMenu,
 } from "./disableLocationMenuSlice";
+import { deleteMenuAddonCategory } from "./menuAddonCategorySlice";
 
 const initialState: MenuInitialState = {
   items: [],
@@ -24,7 +25,7 @@ const initialState: MenuInitialState = {
 };
 
 export const createMenuThunk = createAsyncThunk(
-  "menuSlice/createMenu",
+  "menu/createMenu",
   async (options: CreateMenuOptions, thunkAPI) => {
     const { onSuccess, onError, ...menu } = options;
     try {
@@ -48,7 +49,7 @@ export const createMenuThunk = createAsyncThunk(
 );
 
 export const updateMenuThunk = createAsyncThunk(
-  "menuSlice/updateMenu",
+  "menu/updateMenu",
   async (options: UpdateMenuOptions, thunkAPI) => {
     const { onSuccess, onError, isAvailable, locationId, id, ...menu } =
       options;
@@ -76,7 +77,7 @@ export const updateMenuThunk = createAsyncThunk(
   }
 );
 export const deleteMenuThunk = createAsyncThunk(
-  "menuSlice/deleteMenu",
+  "menu/deleteMenu",
   async (options: DeleteMenuOptions, thunkAPI) => {
     const { onSuccess, onError, id } = options;
     try {
@@ -85,19 +86,21 @@ export const deleteMenuThunk = createAsyncThunk(
       });
       const data = await respone.json();
 
-      const { name, menuAddonCategoryIds, menuCategoryMenuIds } = data;
-      thunkAPI.dispatch(deleteMenu(id));
-      thunkAPI.dispatch(deleteMenuCategoryMenu(menuCategoryMenuIds));
+      const { name, menuAddonCategoryIds, menuCategoryMenusIds } = data;
 
+      thunkAPI.dispatch(deleteMenu(id));
+      thunkAPI.dispatch(deleteMenuAddonCategory(menuAddonCategoryIds));
+      thunkAPI.dispatch(deleteMenuCategoryMenu(menuCategoryMenusIds));
       onSuccess && onSuccess();
     } catch (error) {
+      console.error(error);
       onError && onError();
     }
   }
 );
 
 const menuSlice = createSlice({
-  name: "menuSlice",
+  name: "menu",
   initialState,
   reducers: {
     setMenu: (state, action) => {

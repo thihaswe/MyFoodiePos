@@ -5,12 +5,14 @@ import {
   UpdateLocationOptions,
 } from "@/types/location";
 import { config } from "@/utils/config";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { actionAsyncStorage } from "next/dist/client/components/action-async-storage.external";
 
 const initialState: LocationInitialState = {
   items: [],
   isLoading: false,
   error: null,
+  selectedLocation: null,
 };
 
 export const createLocationThunk = createAsyncThunk(
@@ -79,6 +81,19 @@ const loacationSlice = createSlice({
   reducers: {
     setLocation: (state, action) => {
       state.items = action.payload;
+      const selectedLocationId = localStorage.getItem("helloWorld");
+      if (!selectedLocationId) {
+        const firstLocationId = action.payload[0].id;
+        localStorage.setItem("helloWorld", String(firstLocationId));
+        state.selectedLocation = action.payload[0];
+      } else {
+        const selectedLocation = state.items.find(
+          (item) => item.id === Number(selectedLocationId)
+        );
+        if (selectedLocation) {
+          state.selectedLocation = selectedLocation;
+        }
+      }
     },
     addLocation: (state, action) => {
       state.items = [...state.items, action.payload];
@@ -91,9 +106,17 @@ const loacationSlice = createSlice({
     deleteLocation: (state, action) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
+    setSelectedLocation: (state, action) => {
+      state.selectedLocation = action.payload;
+    },
   },
 });
 
-export const { setLocation, addLocation, updateLocation, deleteLocation } =
-  loacationSlice.actions;
+export const {
+  setLocation,
+  addLocation,
+  updateLocation,
+  deleteLocation,
+  setSelectedLocation,
+} = loacationSlice.actions;
 export default loacationSlice.reducer;

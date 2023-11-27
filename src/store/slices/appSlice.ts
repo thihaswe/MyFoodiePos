@@ -22,9 +22,14 @@ const initialState: AppInitialState = {
 export const fetchAppData = createAsyncThunk(
   "app/fetchAppData",
   async (options: FetchDataOptions, ThunkAPI) => {
-    const { onSuccess, onError } = options;
+    const { tableId, onSuccess, onError } = options;
+
+    const appDataUrl = tableId
+      ? `${config.apiBaseUrl}/app?tableId=${tableId}`
+      : `${config.apiBaseUrl}/app`;
+
     try {
-      const response = await fetch(`${config.apiBaseUrl}/app`);
+      const response = await fetch(appDataUrl);
       const data = await response.json();
       const {
         company,

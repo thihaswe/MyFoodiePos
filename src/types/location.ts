@@ -5,6 +5,7 @@ export interface LocationInitialState {
   items: Location[];
   isLoading: boolean;
   error: Error | null;
+  selectedLocation: Location | null;
 }
 
 export interface CreateLocationOptions extends BaseOptions {

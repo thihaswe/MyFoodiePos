@@ -1,7 +1,6 @@
 import MultiSelect from "@/components/MultiSelect";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { fetchAppData } from "@/store/slices/appSlice";
-import { updateMenuThunk, deleteMenuThunk } from "@/store/slices/menuSlice";
+import { deleteMenuThunk, updateMenuThunk } from "@/store/slices/menuSlice";
 import { UpdateMenuOptions } from "@/types/menu";
 import {
   Box,
@@ -9,16 +8,14 @@ import {
   Dialog,
   DialogContent,
   FormControlLabel,
-  Select,
   SelectChangeEvent,
   Switch,
   TextField,
   Typography,
 } from "@mui/material";
-import { signOut } from "next-auth/react";
-import { Router, useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import TopBarProgress from "react-topbar-progress-indicator";
+import { useRouter } from "next/router";
+
+import { useEffect, useState } from "react";
 
 const MenuDetail = () => {
   const router = useRouter();

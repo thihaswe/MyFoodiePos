@@ -9,4 +9,6 @@ export interface AppInitialState {
   error: Error | null;
 }
 
-export interface FetchDataOptions extends BaseOptions {}
+export interface FetchDataOptions extends BaseOptions {
+  tableId?: number;
+}

@@ -8,6 +8,16 @@ import NewMenuPage from "@/components/NewMenu";
 const Menu = () => {
   const [open, setOpen] = useState<boolean>(false);
   const menus = useAppSelector((store) => store.menu.items);
+  const disableLocationMenus = useAppSelector(
+    (store) => store.disableLocationMenu.items
+  );
+  const selectedLocation = useAppSelector(
+    (store) => store.location.selectedLocation
+  );
+  const disabledLocationMenusIds = disableLocationMenus.map(
+    (item) => item.locationId === selectedLocation?.id && item.menuId
+  );
+
   return (
     <Box>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -18,14 +28,20 @@ const Menu = () => {
       </Box>
       <Box display={"flex"} flexWrap={"wrap"}>
         {menus.map((item) => (
-          <Box key={item.id} display={"flex"}>
+          <Box
+            key={item.id}
+            display={"flex"}
+            sx={{
+              opacity: disabledLocationMenusIds.includes(item.id) ? 0.5 : 1,
+            }}
+          >
             <Box width={259} m={2} height={250}>
               <ItemCard
                 href={`/backoffice/menus/${item.id}`}
                 label={item.name}
-                imgUrl={item.assetUrl || ""}
+                imgUrl={item.assetUrl || "/default-menu.png"}
                 subtitle={item.price}
-                icon={<LocalDiningIcon />}
+                icon={<LocalDiningIcon sx={{ fontSize: 50 }} />}
               ></ItemCard>
             </Box>
           </Box>

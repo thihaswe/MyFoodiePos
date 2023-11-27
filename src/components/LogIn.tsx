@@ -17,9 +17,6 @@ const LogIn = () => {
         </Button>
       </Box>
     );
-  else {
-    router.push("/backoffice/orders");
-  }
 };
 
 export default LogIn;

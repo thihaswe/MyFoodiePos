@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { createMenu, createMenuThunk } from "@/store/slices/menuSlice";
+import { createMenuThunk } from "@/store/slices/menuSlice";
 import { CreateMenuOptions } from "@/types/menu";
 import {
   Dialog,
@@ -14,6 +14,8 @@ import {
   Chip,
   DialogActions,
   Button,
+  Checkbox,
+  ListItemText,
 } from "@mui/material";
 
 import { useRouter } from "next/router";
@@ -68,6 +70,7 @@ const NewMenuPage = ({ open, setOpen }: Prop) => {
           setOpen(false);
           setData(defaultData);
           setMenuImage(undefined);
+          router.push("/backoffice/menus");
         },
       })
     );
@@ -98,7 +101,7 @@ const NewMenuPage = ({ open, setOpen }: Prop) => {
           sx={{ width: "300px", mb: 2 }}
           onChange={(e) => setData({ ...data, price: Number(e.target.value) })}
         ></TextField>
-        <FormControl>
+        <FormControl sx={{ mb: 2 }}>
           <InputLabel>MenuCategory</InputLabel>
           <Select
             multiple
@@ -118,7 +121,8 @@ const NewMenuPage = ({ open, setOpen }: Prop) => {
             {menuCategories.map((item) => {
               return (
                 <MenuItem value={item.id} key={item.id}>
-                  {item.name}
+                  <Checkbox checked={data.menuCategoryIds.includes(item.id)} />
+                  <ListItemText primary={item.name} />
                 </MenuItem>
               );
             })}

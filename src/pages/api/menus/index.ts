@@ -17,11 +17,11 @@ export default async function handler(
   const method = req.method;
   if (method === "POST") {
     const menu = req.body as CreateMenuOptions;
-    const { name, price = 0, menuCategoryIds } = menu;
+    const { name, price = 0, assetUrl, menuCategoryIds } = menu;
     const isValid = name && price != undefined && menuCategoryIds.length != 0;
     if (!isValid) return res.status(400).send("Bad Request");
     const menus = await prisma.menu.create({
-      data: { name, price, assetUrl: menu.assetUrl },
+      data: { name, price, assetUrl },
     });
     const newMenuCategoryMenu = menuCategoryIds.map((id) => ({
       menuId: menus.id,
@@ -67,7 +67,10 @@ export default async function handler(
         })
       )
     );
+
+    console.log(locationId, isAvailable);
     if (locationId && isAvailable === false) {
+      console.log("false enter");
       const exist = await prisma.disableLocationMenu.findFirst({
         where: { menuId: id, locationId },
       });
@@ -77,6 +80,7 @@ export default async function handler(
         });
       }
     } else if (locationId && isAvailable === true) {
+      console.log("ture enter");
       const exist = await prisma.disableLocationMenu.findFirst({
         where: { menuId: id, locationId },
       });
@@ -87,7 +91,7 @@ export default async function handler(
       }
     }
     const disabledLocationMenus = await prisma.disableLocationMenu.findMany({
-      where: { menuId: id },
+      where: { menuId: id, locationId },
     });
     return res
       .status(200)
@@ -105,6 +109,7 @@ export default async function handler(
         where: { menuId: menuId },
       })
     ).map((item) => item.id);
+
     await prisma.menuCategoryMenu.updateMany({
       data: { isArchived: true },
       where: { id: menuId },
@@ -119,6 +124,7 @@ export default async function handler(
       data: { isArchived: true },
       where: { id: menuId },
     });
+
     return res
       .status(200)
       .json({ name: "delete", menuCategoryMenusIds, menuAddonCategoryIds });

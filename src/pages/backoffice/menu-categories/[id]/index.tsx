@@ -72,8 +72,9 @@ const MenuCategoryDetail = () => {
   return (
     <Box>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box>
+        <Box display={"flex"} flexDirection={"column"}>
           <TextField
+            sx={{ width: 500, mb: 2 }}
             defaultValue={data.name}
             onChange={(e) => {
               setData({ ...data, name: e.target.value });

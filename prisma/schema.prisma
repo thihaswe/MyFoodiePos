@@ -29,7 +29,7 @@ model Location {
   companyId                     Int
   disableLocationMenus          DisableLocationMenu[]
   isArchived                    Boolean                       @default(false)
-  menuCategories                MenuCategory[]
+
   disableLocationMenuCategories DisableLocationMenuCategory[]
   tables Table[]
 }
@@ -61,8 +61,7 @@ model MenuCategory {
   name                        String
   companyId                   Int
   company                     Company                       @relation(fields: [companyId], references: [id])
-  locationId                  Int
-  location                    Location                      @relation(fields: [locationId], references: [id])
+ 
   menuCategoryMenus           MenuCategoryMenu[]
   disableLocationMenuCategory DisableLocationMenuCategory[]
   createAt                    DateTime                      @default(now())

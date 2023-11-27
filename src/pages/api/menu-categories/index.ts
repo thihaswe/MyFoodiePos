@@ -26,11 +26,12 @@ export default async function handler(
 
     if (!isValid) return res.status(400).send("Bad Request");
     const menuCategory = await prisma.menuCategory.create({
-      data: { companyId, locationId, name },
+      data: { companyId, name },
     });
 
     return res.status(200).json(menuCategory);
   } else if (method === "PUT") {
+    console.log("put");
     const { id, name, isAvailable, locationId } = req.body;
     const isValid = id && name && name !== "";
     if (!isValid) return res.status(400).send("Bad Request");

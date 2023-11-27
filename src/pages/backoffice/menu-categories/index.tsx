@@ -1,14 +1,25 @@
 import ItemCard from "@/components/ItemCard";
 import NewMenuCategory from "@/components/NewMenuCategory";
+import CategoryIcon from "@mui/icons-material/Category";
 import { useAppSelector } from "@/store/hook";
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 const MenuCategories = () => {
   const menuCategories = useAppSelector((store) => store.menuCategory.items);
+
   const menuCategoryMenus = useAppSelector(
     (store) => store.menuCategoryMenu.items
   );
 
+  const selectedLocationId = Number(localStorage.getItem("helloWorld"));
+
+  const disableLocationMenuCategories = useAppSelector(
+    (store) => store.disableLocationMenuCategory.items
+  );
+
+  const disableLocationMenuCategoryIds = disableLocationMenuCategories
+    .filter((item) => item.locationId === selectedLocationId)
+    .map((item) => item.menuCategoryId);
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -26,7 +37,15 @@ const MenuCategories = () => {
       <Box display={"flex"} flexWrap={"wrap"}>
         {/* <Typography>MenuCategory Page</Typography> */}
         {menuCategories.map((item) => (
-          <Box key={item.id} width={259} m={2} height={250}>
+          <Box
+            key={item.id}
+            m={2}
+            sx={{
+              opacity: disableLocationMenuCategoryIds.includes(item.id)
+                ? 0.5
+                : 1,
+            }}
+          >
             <ItemCard
               href={`/backoffice/menu-categories/${item.id}`}
               label={item.name}
@@ -35,6 +54,7 @@ const MenuCategories = () => {
                   (mCm) => mCm.menuCategoryId === item.id
                 ).length
               }
+              icon={<CategoryIcon sx={{ fontSize: 50 }} />}
             ></ItemCard>
           </Box>
         ))}

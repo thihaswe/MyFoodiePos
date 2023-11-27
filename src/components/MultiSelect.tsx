@@ -5,6 +5,8 @@ import {
   Chip,
   Box,
   Select,
+  Checkbox,
+  ListItemText,
 } from "@mui/material";
 import { Menu, MenuCategory } from "@prisma/client";
 import React from "react";
@@ -42,7 +44,8 @@ const MultiSelect = ({
           {practical.map((item) => {
             return (
               <MenuItem value={item.id} key={item.id}>
-                {item.name}
+                <Checkbox checked={selectedIds.includes(item.id)} />
+                <ListItemText primary={item.name} />
               </MenuItem>
             );
           })}
