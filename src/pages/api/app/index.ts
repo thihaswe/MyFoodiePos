@@ -124,7 +124,6 @@ export default async function handler(
       const menuCategories = await prisma.menuCategory.create({
         data: {
           name: newMenuCategoryName,
-
           companyId,
         },
       });
