@@ -25,28 +25,45 @@ const MenuDetail = () => {
   );
 
   const [selectedAddon, setSelectedAddon] = useState<Addon[]>([]);
-  const [disabled, setIsDisable] = useState(true);
+  const [isdisabled, setIsDisabled] = useState(true);
+
+  // useEffect(() => {
+  //   const requiredAddonCategories = addonCategories.filter(
+  //     (item) => item.isRequired === true
+  //   );
+
+  //   const selectedAddoncat = selectedAddon.map((item) => item.addonCategoryId);
+  //   const selectedRequiredAddonCat = selectedAddoncat.filter((addonCat) => {
+  //     const addonCategory = addonCategories.find(
+  //       (item) => item.id === addonCat
+  //     );
+  //     return addonCategory?.isRequired ? true : false;
+  //   });
+
+  //   const disabledButton =
+  //     requiredAddonCategories.length !== selectedRequiredAddonCat.length;
+
+  //   setIsDisable(disabledButton);
+  // }, [selectedAddon, addonCategories]);
 
   useEffect(() => {
-    const requiredAddonCategories = addonCategories.filter(
-      (item) => item.isRequired === true
+    const requiredAddonCategories = addonCategoriesToDisplay.filter(
+      (item) => item.isRequired
     );
-
-    const selectedAddoncat = selectedAddon.map((item) => item.addonCategoryId);
-    const selectedRequiredAddonCat = selectedAddoncat.filter((addonCat) => {
+    const selectedRequiredAddons = selectedAddon.filter((selected) => {
       const addonCategory = addonCategories.find(
-        (item) => item.id === addonCat
+        (item) => item.id === selected.addonCategoryId
       );
-      return addonCategory?.isRequired;
+      return addonCategory?.isRequired ? true : false;
     });
-
-    const disabledButton =
-      requiredAddonCategories.length === selectedRequiredAddonCat.length
-        ? false
-        : true;
-    setIsDisable(disabledButton);
+    const isDisabled =
+      requiredAddonCategories.length !== selectedRequiredAddons.length
+        ? true
+        : false;
+    setIsDisabled(isDisabled);
   }, [selectedAddon, addonCategories]);
   if (!isReady || !menu) return null;
+  console.log(isdisabled);
 
   return (
     <Box sx={{ position: "relative", zIndex: 5 }}>
@@ -85,7 +102,7 @@ const MenuDetail = () => {
             addonCategories={addonCategoriesToDisplay}
           />
           <Button
-            disabled={disabled}
+            disabled={isdisabled}
             variant="contained"
             sx={{ width: "fit-content" }}
           >
