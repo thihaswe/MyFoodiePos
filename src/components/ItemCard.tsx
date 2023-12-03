@@ -47,7 +47,7 @@ const ItemCard = ({
             </CardMedia>
             <CardContent>
               <Typography>{label}</Typography>
-              <Typography>{subtitle ? subtitle : ""}</Typography>
+              <Typography>{subtitle ? subtitle : "free"}</Typography>
             </CardContent>
           </Card>
         </Link>
@@ -64,7 +64,7 @@ const ItemCard = ({
             ></CardMedia>
             <CardContent>
               <Typography>{label}</Typography>
-              <Typography>{subtitle ? subtitle : ""}</Typography>
+              <Typography>{subtitle ? subtitle : "free"}</Typography>
             </CardContent>
           </Card>
         </Link>
