@@ -92,6 +92,8 @@ const loacationSlice = createSlice({
         );
         if (selectedLocation) {
           state.selectedLocation = selectedLocation;
+        } else {
+          state.selectedLocation = action.payload[0];
         }
       }
     },

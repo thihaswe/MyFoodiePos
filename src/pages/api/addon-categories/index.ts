@@ -36,7 +36,7 @@ export default async function handler(
   } else if (method === "PUT") {
     const { id, name, menuIds, isRequired } =
       req.body as UpdateAddonCategoryOptions;
-    const isValid = id && name && menuIds.length > 0 && isRequired;
+    const isValid = id && name && menuIds.length > 0;
     if (!isValid) return res.status(400).send("Bad Request");
     const exist = await prisma.addonCategory.findUnique({ where: { id } });
     if (!exist) return res.status(404).send("Not Found");

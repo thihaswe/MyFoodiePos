@@ -42,6 +42,7 @@ export default async function handler(
     const menuCategories = (
       await prisma.menuCategory.findMany({
         where: { isArchived: false, companyId: company?.id },
+        orderBy: { id: "asc" },
       })
     ).filter((item) => !disableLocationMenuCategories.includes(item.id));
 
@@ -58,6 +59,7 @@ export default async function handler(
     const menus = (
       await prisma.menu.findMany({
         where: { id: { in: menuCategoryMenus.map((item) => item.menuId) } },
+        orderBy: { id: "asc" },
       })
     ).filter((item) => !disableLocationMenus.includes(item.id));
 
@@ -79,6 +81,7 @@ export default async function handler(
       company: [...[], company],
       tables: [...[], table],
       locations: [...[], location],
+      menuAddonCategories,
       menuCategories,
       menuCategoryMenus,
       menus,

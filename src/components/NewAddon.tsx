@@ -15,6 +15,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useState } from "react";
 interface Prop {
   open: boolean;
@@ -27,12 +28,20 @@ const defaultValue: CreateAddonOptions = {
 };
 
 const NewAddon = ({ open, setOpen }: Prop) => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const addonCategories = useAppSelector((store) => store.addonCategory.items);
   const [data, setData] = useState<CreateAddonOptions>(defaultValue);
 
   const handleCreate = () => {
-    dispatch(createAddonThunk(data));
+    dispatch(
+      createAddonThunk({
+        ...data,
+        onSuccess: () => {
+          setOpen(false), router.push("/backoffice/addons");
+        },
+      })
+    );
   };
 
   const handleOnChange = (e: SelectChangeEvent<number>) => {

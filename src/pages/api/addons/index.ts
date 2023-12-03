@@ -44,14 +44,16 @@ export default async function handler(
 
     return res.status(200).json(addon);
   } else if (method === "DELETE") {
-    const { id } = req.body as DeleteAddonOptions;
-    const isValid = id;
+    const { id } = req.query;
+    const addonId = Number(id);
+
+    const isValid = addonId;
     if (!isValid) return res.status(400).send("Bad Request");
-    const exist = await prisma.addon.findUnique({ where: { id } });
+    const exist = await prisma.addon.findUnique({ where: { id: addonId } });
     if (!exist) return res.status(404).send("Not Found");
     const addon = await prisma.addon.update({
       data: { isArchived: true },
-      where: { id },
+      where: { id: addonId },
     });
 
     return res.status(200).json("deleted");

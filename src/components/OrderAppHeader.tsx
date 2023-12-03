@@ -10,6 +10,7 @@ interface Props {
 
 const OrderAppHeader = ({ cartItemCount }: Props) => {
   const company = useAppSelector((store) => store.company.items);
+  const location = useAppSelector((store) => store.location.selectedLocation);
   const router = useRouter();
   const isHome = router.pathname === "/orderapp";
   const isCart = router.pathname === "/orderapp/cart";
@@ -83,14 +84,14 @@ const OrderAppHeader = ({ cartItemCount }: Props) => {
                 mt: 15,
               }}
             >
-              {company[0]?.name}
+              {company[0].name}
             </Typography>
             <Typography
               variant="body1"
               sx={{ fontStyle: "italic", lineHeight: 1.2 }}
             >
-              Hintada Street 39
-              <br /> Sanchaung, Yangon
+              {company[0].address}
+              <br /> {location?.name}
             </Typography>
           </Box>
         </Box>

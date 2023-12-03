@@ -84,7 +84,13 @@ const AddonCategryDetail = () => {
     <Box>
       <Box display={"Flex"} justifyContent={"space-between"}>
         <Box>
-          <TextField defaultValue={data.name} sx={{ mb: 2 }}></TextField>
+          <TextField
+            defaultValue={data.name}
+            sx={{ mb: 2 }}
+            onChange={(e) => {
+              setData({ ...data, name: e.target.value });
+            }}
+          ></TextField>
           <br />
           <FormControl sx={{ mb: 2, width: 500 }}>
             <InputLabel>Menu</InputLabel>
