@@ -2,6 +2,7 @@ import ItemCard from "@/components/ItemCard";
 import NewMenuCategory from "@/components/NewMenuCategory";
 import CategoryIcon from "@mui/icons-material/Category";
 import { useAppSelector } from "@/store/hook";
+import DoNotDisturbOffIcon from "@mui/icons-material/DoNotDisturbOff";
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 const MenuCategories = () => {
@@ -48,13 +49,23 @@ const MenuCategories = () => {
           >
             <ItemCard
               href={`/backoffice/menu-categories/${item.id}`}
-              label={item.name}
+              label={
+                disableLocationMenuCategoryIds.includes(item.id)
+                  ? item.name + " (is unavialable)"
+                  : item.name
+              }
               subtitle={
                 menuCategoryMenus.filter(
                   (mCm) => mCm.menuCategoryId === item.id
                 ).length
               }
-              icon={<CategoryIcon sx={{ fontSize: 50 }} />}
+              icon={
+                disableLocationMenuCategoryIds.includes(item.id) ? (
+                  <DoNotDisturbOffIcon sx={{ fontSize: 50 }} />
+                ) : (
+                  <CategoryIcon sx={{ fontSize: 50 }} />
+                )
+              }
             ></ItemCard>
           </Box>
         ))}

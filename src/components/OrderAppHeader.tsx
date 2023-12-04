@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hook";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
+import Home from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
 
 interface Props {
@@ -31,6 +32,24 @@ const OrderAppHeader = ({ cartItemCount }: Props) => {
         top: 0,
       }}
     >
+      {!showCartIcon && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 10,
+            right: 200,
+            cursor: "pointer",
+          }}
+          onClick={() =>
+            router.push({
+              pathname: "/orderapp",
+              query: { tableId: router.query.tableId },
+            })
+          }
+        >
+          <Home />
+        </Box>
+      )}
       {showCartIcon && (
         <Box
           sx={{

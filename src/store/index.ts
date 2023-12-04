@@ -11,6 +11,8 @@ import locationReducer from "../store/slices/locationSlice";
 import tableReducer from "../store/slices/tableSlice";
 import disableLocationMenuCategoryReducer from "./slices/disableLocationMenuCategorySlice";
 import disableLocationMenuReducer from "../store/slices/disableLocationMenuSlice";
+import cartReducer from "../store/slices/cartSlice";
+import orderReducer from "../store/slices/orderSlice";
 
 // ...
 
@@ -28,6 +30,8 @@ export const store = configureStore({
     disableLocationMenuCategory: disableLocationMenuCategoryReducer,
     disableLocationMenu: disableLocationMenuReducer,
     table: tableReducer,
+    cart: cartReducer,
+    order: orderReducer,
   },
 });
 

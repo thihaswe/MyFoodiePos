@@ -4,6 +4,7 @@ import React, { ReactNode, useEffect } from "react";
 import OrderAppHeader from "./OrderAppHeader";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { fetchAppData } from "@/store/slices/appSlice";
+import { store } from "@/store";
 
 interface Prop {
   children: ReactNode | JSX.Element;
@@ -14,6 +15,7 @@ const OrderLayout = ({ children }: Prop) => {
   const tableId = Number(router.query.tableId);
   const dispatch = useAppDispatch();
   const tables = useAppSelector((store) => store.table.items);
+  const carts = useAppSelector((store) => store.cart.items);
 
   useEffect(() => {
     try {
@@ -25,11 +27,11 @@ const OrderLayout = ({ children }: Prop) => {
     }
   }, [tableId]);
 
-  if (!tables.length) return <Typography>Your table does not exist</Typography>;
+  if (!tables.length) return <Typography>Loading ......</Typography>;
 
   return (
     <Box>
-      <OrderAppHeader cartItemCount={1} />
+      <OrderAppHeader cartItemCount={carts.length} />
       <Box
         sx={{
           position: "relative",

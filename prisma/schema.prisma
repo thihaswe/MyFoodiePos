@@ -23,15 +23,15 @@ model Company {
 }
 
 model Location {
-  id                            Int                           @id @default(autoincrement())
-  name                          String
-  company                       Company                       @relation(fields: [companyId], references: [id])
-  companyId                     Int
-  disableLocationMenus          DisableLocationMenu[]
-  isArchived                    Boolean                       @default(false)
+  id                   Int                   @id @default(autoincrement())
+  name                 String
+  company              Company               @relation(fields: [companyId], references: [id])
+  companyId            Int
+  disableLocationMenus DisableLocationMenu[]
+  isArchived           Boolean               @default(false)
 
   disableLocationMenuCategories DisableLocationMenuCategory[]
-  tables Table[]
+  tables                        Table[]
 }
 
 model DisableLocationMenu {
@@ -75,7 +75,7 @@ model Menu {
   assetUrl            String?
   menuCategoryMenus   MenuCategoryMenu[]
   disableLocationMenu DisableLocationMenu[]
-  orderLine Orderline[]
+  orders              Order[]
   createAt            DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   menuAddonCategories MenuAddonCategory[]
@@ -108,7 +108,7 @@ model MenuAddonCategory {
 model AddonCategory {
   id                  Int                 @id @default(autoincrement())
   name                String
-  isRequired        Boolean             @default(true)
+  isRequired          Boolean             @default(true)
   createAt            DateTime            @default(now())
   updatedAt           DateTime            @updatedAt
   isArchived          Boolean             @default(false)
@@ -122,7 +122,7 @@ model Addon {
   price           Int
   addonCategory   AddonCategory @relation(fields: [addonCategoryId], references: [id])
   addonCategoryId Int
-  orderLine Orderline[]
+  orders          Order[]
   createAt        DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   isArchived      Boolean       @default(false)
@@ -139,7 +139,6 @@ model User {
   isArchived Boolean  @default(false)
 }
 
-
 model Table {
   id         Int      @id @default(autoincrement())
   name       String
@@ -149,15 +148,20 @@ model Table {
   isArchived Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  orders      Order[]
+  orders     Order[]
 }
-
 
 model Order {
   id         Int         @id @default(autoincrement())
+  menu       Menu        @relation(fields: [menuId], references: [id])
+  menuId     Int
+  addon      Addon?      @relation(fields: [addonId], references: [id])
+  addonId    Int?
+  quantity   Int
+  orderSeq   String
+  itemId     String
   status     ORDERSTATUS
   totalPrice Int
-  orderlines Orderline[]
   table      Table       @relation(fields: [tableId], references: [id])
   tableId    Int
   isArchived Boolean     @default(false)
@@ -165,25 +169,8 @@ model Order {
   updatedAt  DateTime    @updatedAt
 }
 
-model Orderline {
-  id         Int      @id @default(autoincrement())
-  order      Order    @relation(fields: [orderId], references: [id])
-  orderId    Int
-  menu       Menu     @relation(fields: [menuId], references: [id])
-  menuId     Int
-  addon      Addon    @relation(fields: [addonId], references: [id])
-  addonId    Int
-  quantity   Int
-  orderSeq   String
-  isArchived Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-
 enum ORDERSTATUS {
-  ORDERED
-  OUTFORDELIVERY
-  DELIVERED
-  CANCELLED
+  PENDING
+  COOKING
+  COMPLETE
 }

@@ -29,8 +29,6 @@ const OrderAppPage = () => {
     }
   }, [menuCategories, isReady, tableId]);
 
-  useEffect(() => {}, []);
-
   const renderMenus = () => {
     // const validMenuIds = menuCategoryMenus
     //   .filter((item) => item.menuCategoryId === selectedMenuCategory?.id)
@@ -67,6 +65,10 @@ const OrderAppPage = () => {
         }}
       >
         {menuCategories.map((item) => {
+          const menusLength = menuCategoryMenus.filter(
+            (mCm) => mCm.menuCategoryId === item.id
+          );
+          if (menusLength.length === 0) return;
           return (
             <Tab
               key={item.id}

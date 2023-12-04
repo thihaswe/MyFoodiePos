@@ -32,6 +32,7 @@ const ItemCard = ({
   if (!onClick) {
     if (!imgUrl && href) {
       return (
+        // menucat
         <Link href={href} style={{ textDecoration: "none" }}>
           <Card style={{ width: "259px", height: "250px" }}>
             <CardMedia>
@@ -47,15 +48,19 @@ const ItemCard = ({
             </CardMedia>
             <CardContent>
               <Typography>{label}</Typography>
-              <Typography>{subtitle ? subtitle : "free"}</Typography>
+
+              <Typography>
+                {subtitle ? subtitle : "there is no menus"}
+              </Typography>
             </CardContent>
           </Card>
         </Link>
       );
     } else if (href) {
       return (
+        // menu
         <Link href={href} style={{ textDecoration: "none" }}>
-          <Card>
+          <Card style={{ width: "259px", height: "250px" }}>
             <CardMedia
               component="img"
               height="150"
