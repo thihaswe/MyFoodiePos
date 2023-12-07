@@ -27,7 +27,7 @@ const Cart = () => {
       {cartItems.length ? (
         <Box>
           {cartItems.map((item) => (
-            <h1>{item.id}</h1>
+            <h1 key={item.id}>{item.id}</h1>
           ))}
         </Box>
       ) : (
