@@ -31,7 +31,6 @@ export default async function handler(
 
     return res.status(200).json(menuCategory);
   } else if (method === "PUT") {
-    console.log("put");
     const { id, name, isAvailable, locationId } = req.body;
     const isValid = id && name && name !== "";
     if (!isValid) return res.status(400).send("Bad Request");

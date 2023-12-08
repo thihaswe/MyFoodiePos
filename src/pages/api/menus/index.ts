@@ -68,9 +68,7 @@ export default async function handler(
       )
     );
 
-    console.log(locationId, isAvailable);
     if (locationId && isAvailable === false) {
-      console.log("false enter");
       const exist = await prisma.disableLocationMenu.findFirst({
         where: { menuId: id, locationId },
       });
@@ -80,7 +78,6 @@ export default async function handler(
         });
       }
     } else if (locationId && isAvailable === true) {
-      console.log("ture enter");
       const exist = await prisma.disableLocationMenu.findFirst({
         where: { menuId: id, locationId },
       });

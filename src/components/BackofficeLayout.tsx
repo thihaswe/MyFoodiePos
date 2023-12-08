@@ -51,7 +51,7 @@ const BackofficeLayout = ({ children }: Prop) => {
     return <LogIn></LogIn>;
   }
 
-  if (!company.length) return null;
+  if (company.length === 0) return null;
   return (
     <Box>
       <TopBar setOpen={setOpen} company={company[0]}></TopBar>

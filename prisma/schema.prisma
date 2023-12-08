@@ -29,7 +29,8 @@ model Location {
   companyId            Int
   disableLocationMenus DisableLocationMenu[]
   isArchived           Boolean               @default(false)
-
+ createdAt                   DateTime ?                      @default(now())
+  updatedAt                    DateTime ?                      @updatedAt
   disableLocationMenuCategories DisableLocationMenuCategory[]
   tables                        Table[]
 }
@@ -40,7 +41,7 @@ model DisableLocationMenu {
   locationId Int
   menuId     Int
   menu       Menu     @relation(fields: [menuId], references: [id])
-  createAt   DateTime @default(now())
+  createdAt   DateTime @default(now())
   updatedAt  DateTime @updatedAt
   isArchived Boolean  @default(false)
 }
@@ -51,7 +52,7 @@ model DisableLocationMenuCategory {
   locationId     Int
   menuCategoryId Int
   menuCategory   MenuCategory @relation(fields: [menuCategoryId], references: [id])
-  createAt       DateTime     @default(now())
+  createdAt       DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   isArchived     Boolean      @default(false)
 }
@@ -63,7 +64,7 @@ model MenuCategory {
   company                     Company                       @relation(fields: [companyId], references: [id])
   menuCategoryMenus           MenuCategoryMenu[]
   disableLocationMenuCategory DisableLocationMenuCategory[]
-  createAt                    DateTime                      @default(now())
+  createdAt                    DateTime                      @default(now())
   updatedAt                   DateTime                      @updatedAt
   isArchived                  Boolean                       @default(false)
 }
@@ -76,7 +77,7 @@ model Menu {
   menuCategoryMenus   MenuCategoryMenu[]
   disableLocationMenu DisableLocationMenu[]
   orders              Order[]
-  createAt            DateTime              @default(now())
+  createdAt            DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   menuAddonCategories MenuAddonCategory[]
   isArchived          Boolean               @default(false)
@@ -88,7 +89,7 @@ model MenuCategoryMenu {
   menuCategoryId Int
   menu           Menu         @relation(fields: [menuId], references: [id])
   menuId         Int
-  createAt       DateTime     @default(now())
+  createdAt       DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   isArchived     Boolean      @default(false)
 }
@@ -100,7 +101,7 @@ model MenuAddonCategory {
   addonCategory   AddonCategory @relation(fields: [addonCategoryId], references: [id])
   addonCategoryId Int
 
-  createAt   DateTime @default(now())
+  createdAt   DateTime @default(now())
   updatedAt  DateTime @updatedAt
   isArchived Boolean  @default(false)
 }
@@ -109,7 +110,7 @@ model AddonCategory {
   id                  Int                 @id @default(autoincrement())
   name                String
   isRequired          Boolean             @default(true)
-  createAt            DateTime            @default(now())
+  createdAt            DateTime            @default(now())
   updatedAt           DateTime            @updatedAt
   isArchived          Boolean             @default(false)
   addons              Addon[]
@@ -123,7 +124,7 @@ model Addon {
   addonCategory   AddonCategory @relation(fields: [addonCategoryId], references: [id])
   addonCategoryId Int
   orders          Order[]
-  createAt        DateTime      @default(now())
+  createdAt        DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   isArchived      Boolean       @default(false)
 }
@@ -134,7 +135,7 @@ model User {
   email      String   @unique
   companyId  Int
   company    Company  @relation(fields: [companyId], references: [id])
-  createAt   DateTime @default(now())
+  createdAt   DateTime @default(now())
   updatedAt  DateTime @updatedAt
   isArchived Boolean  @default(false)
 }
@@ -144,7 +145,7 @@ model Table {
   name       String
   location   Location @relation(fields: [locationId], references: [id])
   locationId Int
-  assetUrl   String
+  assetUrl   String?
   isArchived Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

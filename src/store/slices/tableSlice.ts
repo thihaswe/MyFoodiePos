@@ -43,7 +43,7 @@ export const updateTableThunk = createAsyncThunk(
         body: JSON.stringify(table),
       });
       const data = await response.json();
-      console.log(data);
+
       thunkAPI.dispatch(updateTable(data));
       onSuccess && onSuccess();
     } catch (error) {

@@ -26,11 +26,12 @@ export default async function handler(
     });
     await qrCodeImageUpload(table.id);
     const assetUrl = getQrCodeUrl(table.id);
+
     table = await prisma.table.update({
       data: { assetUrl },
       where: { id: table.id },
     });
-    console.log(table);
+
     return res.status(200).json(table);
   } else if (method === "PUT") {
     const table = req.body;
