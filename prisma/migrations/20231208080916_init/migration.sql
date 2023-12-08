@@ -19,6 +19,8 @@ CREATE TABLE "Location" (
     "name" TEXT NOT NULL,
     "companyId" INTEGER NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3),
 
     CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
 );
@@ -28,7 +30,7 @@ CREATE TABLE "DisableLocationMenu" (
     "id" SERIAL NOT NULL,
     "locationId" INTEGER NOT NULL,
     "menuId" INTEGER NOT NULL,
-    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
@@ -40,7 +42,7 @@ CREATE TABLE "DisableLocationMenuCategory" (
     "id" SERIAL NOT NULL,
     "locationId" INTEGER NOT NULL,
     "menuCategoryId" INTEGER NOT NULL,
-    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
@@ -52,7 +54,7 @@ CREATE TABLE "MenuCategory" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "companyId" INTEGER NOT NULL,
-    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
@@ -65,7 +67,7 @@ CREATE TABLE "Menu" (
     "name" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
     "assetUrl" TEXT,
-    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
@@ -77,7 +79,7 @@ CREATE TABLE "MenuCategoryMenu" (
     "id" SERIAL NOT NULL,
     "menuCategoryId" INTEGER NOT NULL,
     "menuId" INTEGER NOT NULL,
-    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
@@ -89,7 +91,7 @@ CREATE TABLE "MenuAddonCategory" (
     "id" SERIAL NOT NULL,
     "menuId" INTEGER NOT NULL,
     "addonCategoryId" INTEGER NOT NULL,
-    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
@@ -101,7 +103,7 @@ CREATE TABLE "AddonCategory" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "isRequired" BOOLEAN NOT NULL DEFAULT true,
-    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
@@ -114,7 +116,7 @@ CREATE TABLE "Addon" (
     "name" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
     "addonCategoryId" INTEGER NOT NULL,
-    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
@@ -127,7 +129,7 @@ CREATE TABLE "User" (
     "name" TEXT,
     "email" TEXT NOT NULL,
     "companyId" INTEGER NOT NULL,
-    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
@@ -139,7 +141,7 @@ CREATE TABLE "Table" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "locationId" INTEGER NOT NULL,
-    "assetUrl" TEXT NOT NULL,
+    "assetUrl" TEXT,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

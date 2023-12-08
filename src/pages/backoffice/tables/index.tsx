@@ -1,7 +1,7 @@
 import ItemCard from "@/components/ItemCard";
 import { useAppSelector } from "@/store/hook";
 import { Box, Button, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import TableBarIcon from "@mui/icons-material/TableBar";
 import NewTablePage from "@/components/NewTable";
 
@@ -40,13 +40,15 @@ const Tables = () => {
               <ItemCard
                 href={`/backoffice/tables/${item.id}`}
                 label={item.name}
-                imgUrl={item.assetUrl}
+                imgUrl={item.assetUrl || ""}
                 icon={<TableBarIcon sx={{ fontSize: 50 }} />}
               ></ItemCard>
               <Box display={"flex"} justifyContent={"center"}>
                 <Button
                   variant="contained"
-                  onClick={() => handleQRImagePrint(item.assetUrl)}
+                  onClick={() =>
+                    item.assetUrl && handleQRImagePrint(item.assetUrl)
+                  }
                 >
                   Print QR
                 </Button>
