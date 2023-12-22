@@ -4,6 +4,7 @@ import { getQrCodeUrl, qrCodeImageUpload } from "@/utils/fileUpload";
 import {
   DisableLocationMenu,
   DisableLocationMenuCategory,
+  ORDERSTATUS,
 } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
@@ -76,6 +77,14 @@ export default async function handler(
         addonCategoryId: { in: addonCategories.map((item) => item.id) },
       },
     });
+
+    const orders = await prisma.order.findMany({
+      where: {
+        tableId: id,
+      },
+      orderBy: { id: "asc" },
+    });
+
     const data = {
       company: [...[], company],
       tables: [...[], table],
@@ -86,10 +95,10 @@ export default async function handler(
       menus,
       addonCategories,
       addons,
+      orders,
     };
     return res.status(200).json(data);
   } else if (backoffice) {
-    console.log("backoffice request");
     const session = await getServerSession(req, res, authOptions);
     if (!session) return res.status(401).send("unauthorized");
 
@@ -206,6 +215,7 @@ export default async function handler(
         addons,
         locations: [...[], locations],
         tables: [...[], tables],
+        orders: [],
       };
       return res.status(200).send(data);
     } else {
@@ -292,6 +302,15 @@ export default async function handler(
         orderBy: { id: "asc" },
       });
 
+      // getting orders
+      const orders = await prisma.order.findMany({
+        where: {
+          tableId: { in: tables.map((item) => item.id) },
+          status: { in: [ORDERSTATUS.COOKING, ORDERSTATUS.PENDING] },
+        },
+        orderBy: { id: "asc" },
+      });
+
       const data = {
         company,
         menuCategories,
@@ -304,6 +323,7 @@ export default async function handler(
         addons,
         locations,
         tables,
+        orders,
       };
       return res.status(200).send(data);
     }

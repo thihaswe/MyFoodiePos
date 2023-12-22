@@ -15,7 +15,7 @@ const OrderAppHeader = ({ cartItemCount }: Props) => {
   const router = useRouter();
   const isHome = router.pathname === "/orderapp";
   const isCart = router.pathname === "/orderapp/cart";
-  const isActiveOrder = router.pathname.includes("/orderapp/activeOrder");
+  const isActiveOrder = router.pathname.includes("/orderapp/active-order");
   const showCartIcon = !isCart && !isActiveOrder;
 
   if (!company.length) return null;
@@ -32,7 +32,7 @@ const OrderAppHeader = ({ cartItemCount }: Props) => {
         top: 0,
       }}
     >
-      {!showCartIcon && (
+      {!showCartIcon ? (
         <Box
           sx={{
             position: "absolute",
@@ -49,8 +49,7 @@ const OrderAppHeader = ({ cartItemCount }: Props) => {
         >
           <Home />
         </Box>
-      )}
-      {showCartIcon && (
+      ) : (
         <Box
           sx={{
             position: "absolute",
@@ -84,6 +83,7 @@ const OrderAppHeader = ({ cartItemCount }: Props) => {
           )}
         </Box>
       )}
+
       <Image
         src="/order-app-header.svg"
         width={0}

@@ -24,7 +24,7 @@ export default async function handler(
   const method = req.method;
   if (method === "POST") {
     const { name, price = 0, addonCategoryId } = req.body as CreateAddonOptions;
-    const isValid = name && name !== "" && price && addonCategoryId;
+    const isValid = name && name !== "" && addonCategoryId;
     if (!isValid) return res.status(400).send("Bad Request");
     const addon = await prisma.addon.create({
       data: { name, price, addonCategoryId },

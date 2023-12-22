@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Addon, AddonCategory } from "@prisma/client";
-import { Console } from "console";
+
 import React from "react";
 
 interface Prop {

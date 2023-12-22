@@ -1,5 +1,5 @@
 import { CartInitialState, CartItem } from "@/types/cart";
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState: CartInitialState = {
   items: [],
@@ -12,23 +12,25 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
-      const { onSuccess, onError, ...cartItem } = action.payload;
       try {
-        const exist = state.items.find((item) => item.id === cartItem.id);
+        const exist = state.items.find((item) => item.id === action.payload.id);
         if (exist) {
           state.items = state.items.map((item) =>
-            item.id === cartItem.id ? cartItem : item
+            item.id === action.payload.id ? action.payload : item
           );
         } else {
-          state.items = [...state.items, cartItem];
+          state.items = [...state.items, action.payload];
         }
-        onSuccess && onSuccess();
-      } catch (error) {
-        onError && onError();
-      }
+      } catch (error) {}
+    },
+    removeFromCart: (state, action: PayloadAction<CartItem>) => {
+      state.items = state.items.filter((item) => item.id !== action.payload.id);
+    },
+    emptyCart: (state) => {
+      state.items = [];
     },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, emptyCart } = cartSlice.actions;
 export default cartSlice.reducer;

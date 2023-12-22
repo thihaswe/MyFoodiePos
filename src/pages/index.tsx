@@ -16,14 +16,14 @@ export default function Home() {
         Welcome to My POS system app
       </Typography>
       <Box width={500} justifyContent={"space-between"} display={"flex"}>
-        <Button onClick={() => router.push("/backoffice")} variant="contained">
-          to backoffice
-        </Button>
         <Button
           onClick={() => router.push("/orderapp?tableId=1")}
           variant="contained"
         >
           to orderApp
+        </Button>
+        <Button onClick={() => router.push("/backoffice")} variant="contained">
+          to backoffice
         </Button>
       </Box>
     </Box>

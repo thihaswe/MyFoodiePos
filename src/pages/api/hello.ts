@@ -1384,13 +1384,15 @@ export default async function handler(
     orders: [],
   };
 
-  await prisma.location.create({
-    data: { name: dumbData.locations[0].name, companyId: 1 },
-  });
-  await prisma.company.create({ data: { name: dumbData.company.name } });
+  // await prisma.location.create({
+  //   data: { name: dumbData.locations[0].name, companyId: 1 },
+  // });
+  // await prisma.company.create({ data: { name: dumbData.company.name } });
 
   await prisma.menuCategory.createMany({
-    data: dumbData.menuCategories,
+    data: dumbData.menuCategories.map((item) => {
+      return { name: item.name, companyId: item.companyId };
+    }),
   });
   await prisma.menu.createMany({
     data: dumbData.menus.map((item) => {
@@ -1399,7 +1401,10 @@ export default async function handler(
   });
   await prisma.menuCategoryMenu.createMany({
     data: dumbData.menuCategoryMenus.map((item) => {
-      return { menuCategoryId: item.menuCategoryId, menuId: item.menuId };
+      return {
+        menuCategoryId: item.menuCategoryId + 1,
+        menuId: item.menuId + 1,
+      };
     }),
   });
   await prisma.addonCategory.createMany({
@@ -1412,8 +1417,8 @@ export default async function handler(
   await prisma.menuAddonCategory.createMany({
     data: dumbData.menuAddonCategories.map((item) => {
       return {
-        menuId: item.menuId,
-        addonCategoryId: item.addonCategoryId,
+        menuId: item.menuId + 1,
+        addonCategoryId: item.addonCategoryId + 1,
       };
     }),
   });
@@ -1423,9 +1428,62 @@ export default async function handler(
       return {
         name: item.name,
         price: item.price,
-        addonCategoryId: item.addonCategoryId,
+        addonCategoryId: item.addonCategoryId + 1,
       };
     }),
   });
   res.status(200).json({ name: "John Doe" });
 }
+
+// const student = {name:"thiha"}
+// const students = [1,2,3,4]
+// const arryStudent = [...[students],student]
+
+// console.log(arryStudent)
+
+// const numbe = [1,2,3,4,5]
+// const student = {name:"hello",age:"16"}
+// const numberobjs = {...{},numbers}
+// const numandObjects = {...student,numbers}
+// console.log(numberobjs)
+
+// for (let i = 0; i < 100; i++) {
+//   console.log("hello");
+// }
+
+// const human = { name: "thiha", age: 15, gender: "male" };
+// const robot = { name: "robot", age: 15 };
+// const {name ,age,gender:sex} = human
+
+// how-to-fetch-all-git-branches.html:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+// const num = [1,2,3]
+// undefined
+// const fun1 = async () => {
+//     num.map(async (a) => {
+//         await fetch("https://fakestoreapi.com/products/1");
+//         console.log(a);
+//     });
+//     console.log("outside");
+// };
+
+// undefined
+// const fun2 = async()=>{
+//     for(const ele of num){
+//         await fetch ("https://fakestoreapi.com/products/1")
+//         console.log(ele)
+//     }
+//     console.log("outside")
+// }
+// undefined
+// fun2()
+// Promise {<pending>}
+// VM107:4 1
+// VM107:4 2
+// VM107:4 3
+// VM107:6 outside
+// fun1()
+// VM95:6 outside
+// Promise {<fulfilled>: undefined}
+// VM95:4 2
+// VM95:4 3
+// VM95:4 1

@@ -98,12 +98,10 @@ const MenuDetail = () => {
     dispatch(
       addToCart({
         ...newCartItem,
-        onSuccess: () => {
-          const pathname = cartItem ? "/orderapp/cart" : "/orderapp";
-          router.push({ pathname, query: router.query });
-        },
       })
     );
+    const pathname = cartItem ? "/orderapp/cart" : "/orderapp";
+    router.push({ pathname, query: router.query });
   };
 
   return (

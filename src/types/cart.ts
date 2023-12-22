@@ -7,7 +7,7 @@ export interface CartInitialState {
   error: Error | null;
 }
 
-export interface CartItem extends BaseOptions {
+export interface CartItem {
   id: string;
   menu: Menu;
   addons: Addon[];

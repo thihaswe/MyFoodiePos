@@ -5,6 +5,7 @@ import OrderAppHeader from "./OrderAppHeader";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { fetchAppData } from "@/store/slices/appSlice";
 import { store } from "@/store";
+import OrderAppFooter from "./OrderAppFooter";
 
 interface Prop {
   children: ReactNode | JSX.Element;
@@ -74,6 +75,7 @@ const OrderLayout = ({ children }: Prop) => {
           </Typography>
         </Box>
       )} */}
+      <OrderAppFooter />
     </Box>
   );
 };

@@ -20,7 +20,7 @@ export default async function handler(
   if (method === "POST") {
     const { name, menuIds, isRequired } =
       req.body as CreateAddonCategoryOptions;
-    const isValid = name && name !== "" && menuIds.length > 0 && isRequired;
+    const isValid = name && name !== "" && menuIds.length > 0;
     if (!isValid) return res.status(400).send("Bad Request");
     const addonCategory = await prisma.addonCategory.create({
       data: { name, isRequired },
