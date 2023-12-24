@@ -1,31 +1,36 @@
-import { Button, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import { useRouter } from "next/router";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import Reviews from "@/components/Reviews";
 
-export default function Home() {
-  const router = useRouter();
+import { Box } from "@mui/material";
+
+const FoodiePOS = () => {
   return (
     <Box
-      height={"100vh"}
-      display={"flex"}
-      flexDirection={"column"}
-      alignItems={"center"}
-      justifyContent={"center"}
+      sx={{
+        display: "flex",
+        width: "100%",
+        height: "100%",
+        minHeight: "100vh",
+        overflowY: "auto",
+        flexDirection: "column",
+      }}
     >
-      <Typography variant="h1" sx={{ mb: 5 }} color="error.light">
-        Welcome to My POS system app
-      </Typography>
-      <Box width={500} justifyContent={"space-between"} display={"flex"}>
-        <Button
-          onClick={() => router.push("/orderapp?tableId=1")}
-          variant="contained"
-        >
-          to orderApp
-        </Button>
-        <Button onClick={() => router.push("/backoffice")} variant="contained">
-          to backoffice
-        </Button>
+      <Header />
+      <Box
+        sx={{
+          maxWidth: { md: "100%", lg: "1280px" },
+          m: "0 auto",
+          px: { xs: "10px", md: "15px" },
+        }}
+      >
+        <Hero />
+        <Reviews />
       </Box>
+      <Footer />
     </Box>
   );
-}
+};
+
+export default FoodiePOS;

@@ -80,6 +80,7 @@ const Cart = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
+          zIndex: 5,
 
           p: 3,
           bgcolor: "#E8F6EF",
