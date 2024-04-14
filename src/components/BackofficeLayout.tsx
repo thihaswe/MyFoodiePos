@@ -53,15 +53,33 @@ const BackofficeLayout = ({ children }: Prop) => {
 
   if (company.length === 0) return null;
   return (
-    <Box>
+    <Box sx={{ height: "100%", margin: 0, padding: 0 }}>
       <TopBar setOpen={setOpen} company={company[0]}></TopBar>
-      <Box sx={{ display: "flex", position: "relative", zIndex: 5, flex: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          position: "relative",
+          zIndex: 5,
+          flex: 1,
+          height: "100vh",
+        }}
+      >
         <SideBar />
         <Box>
           <LogOutPage open={open} setOpen={setOpen} />
         </Box>
 
-        <Box sx={{ p: 2, width: "100%", height: "100%" }}>{children}</Box>
+        <Box
+          sx={{
+            p: 2,
+            width: "100%",
+            height: "100vh",
+            overflow: "auto",
+            scrollbarWidth: "none",
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );

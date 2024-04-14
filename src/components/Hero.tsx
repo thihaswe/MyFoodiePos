@@ -27,6 +27,7 @@ const Hero = () => {
               maxWidth: 700,
               mb: 4,
               fontSize: { xs: "16px", md: "25px" },
+              position: "relative",
             }}
           >
             Manage your menu catelog easily with Foodie POS and entice your

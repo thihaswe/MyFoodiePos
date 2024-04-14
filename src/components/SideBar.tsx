@@ -23,8 +23,11 @@ const sideBar = () => {
   return (
     <Box
       width={"250px"}
-      height={"100vh"}
-      sx={{ backgroundColor: "success.main", borderTopRightRadius: "50px" }}
+      sx={{
+        backgroundColor: "success.main",
+        borderTopRightRadius: "50px",
+        height: "100vh",
+      }}
     >
       <List>
         {sideBarItems.slice(0, 7).map((item) => {
